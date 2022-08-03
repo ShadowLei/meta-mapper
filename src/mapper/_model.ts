@@ -27,8 +27,8 @@ export class MetaMapperOption {
 
     swallowException: boolean;
 
-    static asDefault(raw?: MetaMapperOption): MetaMapperOption {
-        let rtn = raw || new MetaMapperOption();
+    static asDefault(raw?: Partial<MetaMapperOption>): MetaMapperOption {
+        let rtn = (raw || new MetaMapperOption()) as MetaMapperOption;
 
         rtn.from = rtn.from || MetaMapOn.Key;
         rtn.to = rtn.to || MetaMapOn.Key;

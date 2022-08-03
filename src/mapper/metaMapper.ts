@@ -10,13 +10,13 @@ import { MetaBase } from "../meta/_model";
 export class MetaMapper {
     private wrapper: MetaMapperWrapper;
 
-    constructor(opt?: MetaMapperOption | MetaMapperWrapper) {
-        let option: MetaMapperOption = null;
+    constructor(opt?: Partial<MetaMapperOption> | MetaMapperWrapper) {
+        let option: Partial<MetaMapperOption> = null;
         if (opt) {
             if (opt instanceof MetaMapperWrapper) {
                 this.wrapper = opt;
-            } else if (opt instanceof MetaMapperOption) {
-                option = opt;
+            } else {
+                option = opt as Partial<MetaMapperOption>;
             }
         }
         
