@@ -9,7 +9,7 @@ class DateMapper_FromString implements ITypeMapper {
     }
 
     map(type: TypeString, obj: any): MapperRtn<any> {
-        let rtn = {
+        let rtn: MapperRtn<any> = {
             mapped: true,
             rtn: null
         };
@@ -30,7 +30,7 @@ class DateMapper_FromNumber implements ITypeMapper {
     }
 
     map(type: TypeString, obj: any): MapperRtn<any> {
-        let rtn = {
+        let rtn: MapperRtn<any> = {
             mapped: true,
             rtn: null
         };

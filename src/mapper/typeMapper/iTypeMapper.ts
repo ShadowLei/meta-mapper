@@ -1,9 +1,7 @@
 import { MetaBase } from "../../meta/_model";
-import { MetaMapperWrapper } from "../_model";
-
+import { MetaMapperWrapper } from "../metaMapperWrapper";
 
 export interface MapperRtnError {
-    key: string;
     name: string;
     code: string;
     reason: string;
@@ -13,7 +11,8 @@ export interface MapperRtn<T> {
     mapped: boolean;
     rtn: T;
 
-    err?: MapperRtnError;
+    error?: MapperRtnError;
+    errors?: MapperRtnError[];
 }
 
 export interface IMetaTypeMapper {
@@ -21,7 +20,7 @@ export interface IMetaTypeMapper {
     map<T>(wrapper: MetaMapperWrapper, meta: MetaBase, obj: any): MapperRtn<T>;
 }
 
-export type TypeString = "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function" | "date" | "array";
+export type TypeString = "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function" | "date" | "array" | "null";
 
 export interface ITypeMapper {
     match(type: TypeString): boolean;

@@ -1,5 +1,5 @@
 import { MetaBase } from "../../meta/_model";
-import { MetaMapperWrapper } from "../_model";
+import { MetaMapperWrapper } from "../metaMapperWrapper";
 import { AnyMapper } from "./anyMapper";
 import { ArrayMapper } from "./arrayMapper";
 import { BooleanMapper } from "./booleanMapper";
@@ -32,13 +32,25 @@ export class MapperFactory {
             if (!m.match(meta)) { continue; }
 
             rtn = m.map<T>(wrapper, meta, obj);
+            if (!rtn.mapped && !rtn.error) {
+                rtn.error = {
+                    name: wrapper.getStackName(),
+                    code: "MapError",
+                    reason: `${(m as any).name}: map error: ${JSON.stringify(obj)}`
+                };
+            }
             return rtn;
         }
         
         //unmatched
         rtn = {
             mapped: false,
-            rtn: null
+            rtn: null,
+            error: {
+                name: wrapper.getStackName(),
+                code: "MapperNotFound",
+                reason: `MapperFactory: Can't find a proper mapper to process: inspectType: ${meta.inspectType?.name}: ${meta.inspectType}`
+            }
         };
 
         return rtn;

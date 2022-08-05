@@ -1,7 +1,8 @@
 import { MetaDefineException } from "../../exception";
 import { MetaBase } from "../../meta/_model";
 import { EnumUtil, NumberUtil, ObjectUtil, StringUtil } from "../../util";
-import { Enum, MetaMapperWrapper } from "../_model";
+import { MetaMapperWrapper } from "../metaMapperWrapper";
+import { Enum } from "../_model";
 import { IMetaTypeMapper, ITypeMapper, MapperRtn, TypeString } from "./itypeMapper";
 
 export class EnumMapper implements IMetaTypeMapper {
@@ -10,11 +11,6 @@ export class EnumMapper implements IMetaTypeMapper {
     }
 
     map(wrapper: MetaMapperWrapper, meta: MetaBase, obj: any): MapperRtn<any> {
-        let rtn = {
-            mapped: true,
-            rtn: null
-        };
-
         let enumType = meta.metaTypes[1];
         if (!enumType) {
             throw new MetaDefineException("EnumMapper", `Enum type not defined: ${meta.key}`);
@@ -28,13 +24,35 @@ export class EnumMapper implements IMetaTypeMapper {
             throw new MetaDefineException("EnumMapper", `Enum internal type returns null`);
         }
 
+        let typeStr = ObjectUtil.getTypeString(obj);
+        if (typeStr !== "string" && typeStr !== "number") {
+            return {
+                mapped: false,
+                rtn: null,
+                error: {
+                    name: wrapper.getStackName(),
+                    code: "NotEnum",
+                    reason: `EnumMapper: Value must be string | number: ${typeof obj} | ${JSON.stringify(obj)}`
+                }
+            };
+        }
+
         let match = EnumUtil.tryMatch(enumObj, obj);
         if (match.match) {
-            rtn.rtn = match.val;
-            return rtn;
+            return {
+                mapped: true,
+                rtn: match.val
+            };
         }
         
-        rtn.mapped = false;
-        return rtn;
+        return {
+            mapped: false,
+            rtn: null,
+            error: {
+                name: wrapper.getStackName(),
+                code: "InvalidEnum",
+                reason: `Value not a valid enum: ${JSON.stringify(obj)}`
+            }
+        };
     }
 }

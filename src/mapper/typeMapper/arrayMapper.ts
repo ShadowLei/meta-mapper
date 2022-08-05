@@ -1,7 +1,7 @@
 import { MetaDefineException } from "../../exception";
 import { MetaBase, MetaArray } from "../../meta/_model";
 import { ObjectUtil } from "../../util";
-import { MetaMapperWrapper } from "../_model";
+import { MetaMapperWrapper } from "../metaMapperWrapper";
 import { IMetaTypeMapper, MapperRtn } from "./itypeMapper";
 
 export class ArrayMapper implements IMetaTypeMapper {
@@ -18,11 +18,16 @@ export class ArrayMapper implements IMetaTypeMapper {
             };
         }
 
-        if (!(obj instanceof Array)) {
-            //error: not a array
+        let typeStr = ObjectUtil.getTypeString(obj);
+        if (typeStr !== "array") {
             return {
                 mapped: false,
-                rtn: obj
+                rtn: null,
+                error: {
+                    name: wrapper.getStackName(),
+                    code: "NotArray",
+                    reason: `ArrayMapper: Object not an array: ${typeof obj} | ${JSON.stringify(obj)}`
+                }
             };
         }
 
@@ -32,33 +37,32 @@ export class ArrayMapper implements IMetaTypeMapper {
         }
         let innerMetaTypes = meta.metaTypes.slice(1);
 
-        let rtn = new Array<any>();
+        let arr = new Array<any>();
 
         obj.forEach((m, idx) => {
+            //Dyanmic Meta - MetaArray
             let md = new MetaArray();
             md.idx = idx;
             md.rawType = null;
             md.metaTypes = innerMetaTypes;
-            md.key = "$array";
-            md.name = "$array";
+            md.key = `$[${idx}]`;
+            md.name = `$[${idx}]`;
             
-            let itemRtn = wrapper.mapper.map<any>(md, m);
+            let itemRtn = wrapper.mapper.mapWith<any>(md, m);
+            
             if (itemRtn.mapped) {
-                rtn.push(itemRtn.rtn);
+                arr.push(itemRtn.rtn);
             } else {
-                //TODO here:
-                //error process (exception) here.
-
                 //NOTE:
                 if (wrapper.opt.keepArrayLengthMatch) {
-                    rtn.push(null);
+                    arr.push(undefined);
                 }
             }
         });
 
         return {
             mapped: true,
-            rtn: rtn
+            rtn: arr
         };
     }
 }

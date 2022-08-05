@@ -184,7 +184,7 @@ describe("Array Test", function () {
             p.name = "shadow";
             p.arr = [
                 { name: "shadow", val: 123, index: 0 },
-                { name: "allen", val: 456, index: -1 }
+                { name: "allen", val: 456, index: -1 },
             ];
 
             let rtn = mapper.map(MyData, p);
@@ -250,7 +250,7 @@ describe("Array Test", function () {
                 arr2: [
                     { name: 1234, val: "123" },
                     [{ name: 222, val: "333" }],
-                    "DSf",
+                    "HitPoint",
                     true
                 ]
             };
@@ -261,17 +261,16 @@ describe("Array Test", function () {
                 arr: [
                     { name: "1234", val: 123 },
                     { name: "222", val: 333 },
-                    {},
-                    {}
+                    null,
+                    null
                 ],
                 arr2: [null, [{ name: "222", val: 333 }], null, null]
             };
 
             let rtn = mapper.map(MyData, p);
-
             //@mc
             assert.strictEqual(ObjectUtil.isNullOrUndefined(rtn), false);
-            assert.strictEqual(rtn.mapped, true);
+            //assert.strictEqual(rtn.mapped, false);
             assert.strictEqual(rtn.rtn instanceof MyData, true);
             assert.strictEqual(JSON.stringify(rtn.rtn), JSON.stringify(pAssert));
         });
@@ -328,14 +327,14 @@ describe("Array Test", function () {
                     { name: "222", val: 333 }
                 ],
                 arr2: [],
-                arr3:[
+                arr3: [
                     [
                         [
                             { name: "1234", val: 123 },
                         ],
                         [
                             {},
-                            {},
+                            null,
                             {}
                         ]
                     ]
@@ -369,7 +368,7 @@ describe("Array Test", function () {
 
             //@mc
             assert.strictEqual(ObjectUtil.isNullOrUndefined(rtn), false);
-            assert.strictEqual(rtn.mapped, true);
+            //assert.strictEqual(rtn.mapped, false);
             assert.strictEqual(rtn.rtn instanceof MyData, true);
             assert.strictEqual(JSON.stringify(rtn.rtn), JSON.stringify(pAssert));
         });

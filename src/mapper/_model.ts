@@ -1,6 +1,4 @@
 import { BooleanUtil } from "../util";
-import { MetaMapper } from "./metaMapper";
-
 
 export class Enum {
 }
@@ -45,9 +43,4 @@ export class MetaMapperOption {
         
         return rtn;
     }
-}
-
-export class MetaMapperWrapper {
-    opt: MetaMapperOption;
-    mapper: MetaMapper;
 }

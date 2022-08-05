@@ -1,6 +1,6 @@
 import { MetaBase } from "../../meta/_model";
 import { ObjectUtil } from "../../util";
-import { MetaMapperWrapper } from "../_model";
+import { MetaMapperWrapper } from "../metaMapperWrapper";
 import { IMetaTypeMapper, ITypeMapper, MapperRtn, TypeString } from "./itypeMapper";
 
 
@@ -9,16 +9,6 @@ export abstract class MapperBase implements IMetaTypeMapper {
 
     constructor() {
         this.mappers = [];
-    }
-
-    private getTypeString(obj: any): TypeString {
-        if (obj instanceof Date) {
-            return "date";
-        } else if (obj instanceof Array) {
-            return "array";
-        } else {
-            return typeof (obj);
-        }
     }
 
     abstract match(meta: MetaBase): boolean;
@@ -35,7 +25,7 @@ export abstract class MapperBase implements IMetaTypeMapper {
         //we should use the real - value type when on converting.
         //A. metaType should be the rawType on property if not set.
         //B. actualType should be the convertFrom, and metaType should be the convertTo
-        let typeStr = this.getTypeString(obj);
+        let typeStr = ObjectUtil.getTypeString(obj);
 
         for (let m of this.mappers) {
             if (m.match(typeStr)) {
@@ -47,6 +37,11 @@ export abstract class MapperBase implements IMetaTypeMapper {
         return {
             mapped: false,
             rtn: null,
+            error: {
+                name: wrapper.getStackName(),
+                code: "Mismatch",
+                reason: `Mapper: Unable to find proper match for type: ${typeStr}`
+            }
         };
     }
 }

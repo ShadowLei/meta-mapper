@@ -9,7 +9,7 @@ class NumberMapper_FromString implements ITypeMapper {
     }
 
     map(type: TypeString, obj: any): MapperRtn<any> {
-        let rtn = {
+        let rtn: MapperRtn<any> = {
             mapped: true,
             rtn: null
         };

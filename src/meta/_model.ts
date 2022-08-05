@@ -1,4 +1,5 @@
 import { ClassConstructor } from "../define";
+import { MetaMapOn } from "../mapper";
 
 export declare type ValidateFuncType = (target: any, ...params: any) => boolean;
 
@@ -23,6 +24,10 @@ export class MetaBase {
 
     get inspectType(): ClassConstructor {
         return (this.metaTypes[0] || this.rawType) as ClassConstructor;
+    }
+
+    getMapKey(mapOn: MetaMapOn): string {
+        return mapOn === MetaMapOn.Key ? this.key : this.name;
     }
 }
 

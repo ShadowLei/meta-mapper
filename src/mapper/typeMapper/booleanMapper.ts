@@ -9,15 +9,13 @@ class BooleanMapper_FromString implements ITypeMapper {
     }
 
     map(type: TypeString, obj: any): MapperRtn<any> {
-        let rtn = {
-            mapped: true,
-            rtn: null
-        };
-
         let str = (obj as string)?.toLocaleLowerCase();
-        rtn.rtn = (str === "true" || str === "1" || str === "ok" || str === "success");
+        let rtn = (str === "true" || str === "1" || str === "ok" || str === "success");
 
-        return rtn;
+        return {
+            mapped: true,
+            rtn: rtn
+        };
     }
 }
 

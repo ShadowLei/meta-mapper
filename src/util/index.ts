@@ -6,3 +6,5 @@ export * from "./MetaUtil";
 export * from "./numberUtil";
 export * from "./objectUtil";
 export * from "./stringUtil";
+
+export * from "./stack";
