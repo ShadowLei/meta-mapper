@@ -35,6 +35,17 @@ class DateMapper_FromNumber implements ITypeMapper {
             rtn: null
         };
 
+        if (!NumberUtil.validate(obj)) {
+            return {
+                mapped: false,
+                error: {
+                    name: null,
+                    code: "DateMapper",
+                    reason: `Can't map from number: ${obj}`
+                }
+            };
+        };
+
         try {
             rtn.rtn = new Date(obj as number);
         } catch {

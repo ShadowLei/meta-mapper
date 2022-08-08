@@ -28,14 +28,24 @@ export class EnumMapper implements IMetaTypeMapper {
         if (typeStr !== "string" && typeStr !== "number") {
             return {
                 mapped: false,
-                rtn: null,
                 error: {
-                    name: wrapper.getStackName(),
-                    code: "NotEnum",
-                    reason: `EnumMapper: Value must be string | number: ${typeof obj} | ${JSON.stringify(obj)}`
+                    name: null,
+                    code: "EnumMapper",
+                    reason: `Value must be string | number: ${typeof obj} | ${JSON.stringify(obj)}`
                 }
             };
         }
+
+        if (typeStr === "number" && !NumberUtil.validate(obj)) {
+            return {
+                mapped: false,
+                error: {
+                    name: null,
+                    code: "EnumMapper",
+                    reason: `Can't map from number: ${obj}`
+                }
+            };
+        };
 
         let match = EnumUtil.tryMatch(enumObj, obj);
         if (match.match) {
@@ -47,10 +57,9 @@ export class EnumMapper implements IMetaTypeMapper {
         
         return {
             mapped: false,
-            rtn: null,
             error: {
-                name: wrapper.getStackName(),
-                code: "InvalidEnum",
+                name: null,
+                code: "EnumMapper",
                 reason: `Value not a valid enum: ${JSON.stringify(obj)}`
             }
         };

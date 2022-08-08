@@ -22,11 +22,10 @@ export class ArrayMapper implements IMetaTypeMapper {
         if (typeStr !== "array") {
             return {
                 mapped: false,
-                rtn: null,
                 error: {
-                    name: wrapper.getStackName(),
-                    code: "NotArray",
-                    reason: `ArrayMapper: Object not an array: ${typeof obj} | ${JSON.stringify(obj)}`
+                    name: null,
+                    code: "ArrayMapper",
+                    reason: `Object not an array: ${typeof obj} | ${JSON.stringify(obj)}`
                 }
             };
         }

@@ -292,7 +292,7 @@ describe("Array Test", function () {
                         ],
                         [
                             { a: 1234, b: "123" },
-                            [],
+                            [],                                 //error-1
                             { a: 1234, b: "123" },
                         ]
                     ]
@@ -306,7 +306,7 @@ describe("Array Test", function () {
                             0, 1, 2
                         ],
                         [
-                            [0, 1, 2]
+                            [0, 1, 2]                           //error-2
                         ],
                         [
                             "A", "B", "C"
@@ -366,11 +366,29 @@ describe("Array Test", function () {
             });
             let rtn = m.map(MyData, p);
 
-            //@mc
+            console.log(rtn.errors);
+
             assert.strictEqual(ObjectUtil.isNullOrUndefined(rtn), false);
-            //assert.strictEqual(rtn.mapped, false);
             assert.strictEqual(rtn.rtn instanceof MyData, true);
             assert.strictEqual(JSON.stringify(rtn.rtn), JSON.stringify(pAssert));
+
+
+            /*
+                [
+                    {
+                      name: 'MyData.arr3.$[0].$[1].$[1]',
+                      code: 'ObjectMapper',
+                      reason: 'Data not an expected object: object | []'
+                    },
+                    {
+                      name: 'MyData.e.$[0].$[2].$[0]',
+                      code: 'EnumMapper',
+                      reason: 'Value must be string | number: object | [0,1,2]'
+                    }
+                ]
+            */
+            assert.strictEqual(rtn.errors[0].name, "MyData.arr3.$[0].$[1].$[1]");
+            assert.strictEqual(rtn.errors[1].name, "MyData.e.$[0].$[2].$[0]");
         });
     });
 });

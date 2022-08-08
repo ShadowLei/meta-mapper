@@ -25,6 +25,17 @@ class BooleanMapper_FromNumber implements ITypeMapper {
     }
 
     map(type: TypeString, obj: any): MapperRtn<any> {
+        if (!NumberUtil.validate(obj)) {
+            return {
+                mapped: false,
+                error: {
+                    name: null,
+                    code: "BooleanMapper",
+                    reason: `Can't map from number: ${obj}`
+                }
+            };
+        };
+
         return {
             mapped: true,
             rtn: (obj as number) > 0

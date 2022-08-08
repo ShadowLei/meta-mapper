@@ -69,11 +69,10 @@ export class ObjectMapper implements IMetaTypeMapper {
         if (typeStr !== "object") {
             return {
                 mapped: false,
-                rtn: null,
                 error: {
-                    name: wrapper.getStackName(),
-                    code: "NotObject",
-                    reason: `ObjectMapper: Object not an expected object: ${typeof obj} | ${JSON.stringify(obj)}`
+                    name: null,
+                    code: "ObjectMapper",
+                    reason: `Data not an expected object: ${typeof obj} | ${JSON.stringify(obj)}`
                 }
             };
         }

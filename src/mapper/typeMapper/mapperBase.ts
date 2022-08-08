@@ -1,7 +1,7 @@
 import { MetaBase } from "../../meta/_model";
 import { ObjectUtil } from "../../util";
 import { MetaMapperWrapper } from "../metaMapperWrapper";
-import { IMetaTypeMapper, ITypeMapper, MapperRtn, TypeString } from "./itypeMapper";
+import { IMetaTypeMapper, ITypeMapper, MapperErrorCode, MapperRtn, TypeString } from "./itypeMapper";
 
 
 export abstract class MapperBase implements IMetaTypeMapper {
@@ -29,18 +29,19 @@ export abstract class MapperBase implements IMetaTypeMapper {
 
         for (let m of this.mappers) {
             if (m.match(typeStr)) {
-                return m.map(typeStr, obj);
+                let rtn = m.map(typeStr, obj);
+
+                return rtn;
             }
         }
 
         //TODO here: exception | error process
         return {
             mapped: false,
-            rtn: null,
             error: {
-                name: wrapper.getStackName(),
-                code: "Mismatch",
-                reason: `Mapper: Unable to find proper match for type: ${typeStr}`
+                name: null,
+                code: this.constructor.name as MapperErrorCode,
+                reason: `Unable to find proper match method for type: ${typeStr}`
             }
         };
     }
