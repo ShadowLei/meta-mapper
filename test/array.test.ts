@@ -361,12 +361,10 @@ describe("Array Test", function () {
             };
 
             let m = new MetaMapper({
-                from: MetaMapOn.Meta,
-                to: MetaMapOn.Key
+                from: MetaMapOn.MetaName,
+                to: MetaMapOn.PropertyKey
             });
             let rtn = m.map(MyData, p);
-
-            console.log(rtn.errors);
 
             assert.strictEqual(ObjectUtil.isNullOrUndefined(rtn), false);
             assert.strictEqual(rtn.rtn instanceof MyData, true);

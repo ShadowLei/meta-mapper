@@ -17,7 +17,7 @@ export class ObjectMapper implements IMetaTypeMapper {
         key: string;
         val: any;
     } {
-        if (on === MetaMapOn.Key) {
+        if (on === MetaMapOn.PropertyKey) {
             return {
                 key: prop.key,
                 val: obj[prop.key]
@@ -32,7 +32,7 @@ export class ObjectMapper implements IMetaTypeMapper {
 
     //
     private setProp(obj: any, val: any, prop: MetaProperty, on: MetaMapOn): void {
-        if (on === MetaMapOn.Key) {
+        if (on === MetaMapOn.PropertyKey) {
             obj[prop.key] = val;
         } else {
             obj[prop.name] = val;
@@ -46,11 +46,17 @@ export class ObjectMapper implements IMetaTypeMapper {
         let prop = wrapper.mapper.mapWith(propMeta, propKeyVal.val);
 
         //set to target
-        if ((prop.rtn === undefined && wrapper.opt.ignoreUndefined) ||
-            (prop.rtn === null && wrapper.opt.ignoreNull)) {
+        /*
+        if ((prop.rtn === undefined && !wrapper.opt.mapUndefined) ||
+            (prop.rtn === null && !wrapper.opt.mapNull)) {
             //ignore
         } else {
             //set
+            this.setProp(mapObj, prop.rtn, propMeta, wrapper.opt.to);
+        }
+        */
+
+        if (!ObjectUtil.isNullOrUndefined(prop.rtn)) {
             this.setProp(mapObj, prop.rtn, propMeta, wrapper.opt.to);
         }
 

@@ -84,7 +84,7 @@ describe("Map Test", function () {
         });
 
         it("case 9", () => {
-            let rtn = new MetaMapper().map(String, [1,2,3]);
+            let rtn = new MetaMapper().map(String, [1, 2, 3]);
 
             assert.strictEqual(ObjectUtil.isNullOrUndefined(rtn), false);
             assert.strictEqual(rtn.mapped, false);

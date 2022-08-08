@@ -31,7 +31,7 @@ class StringMapper_FromNumber implements ITypeMapper {
                     reason: `Can't map from number: ${obj}`
                 }
             };
-        };
+        }
 
         return {
             mapped: true,

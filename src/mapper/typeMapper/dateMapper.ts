@@ -44,7 +44,7 @@ class DateMapper_FromNumber implements ITypeMapper {
                     reason: `Can't map from number: ${obj}`
                 }
             };
-        };
+        }
 
         try {
             rtn.rtn = new Date(obj as number);

@@ -35,7 +35,6 @@ export abstract class MapperBase implements IMetaTypeMapper {
             }
         }
 
-        //TODO here: exception | error process
         return {
             mapped: false,
             error: {

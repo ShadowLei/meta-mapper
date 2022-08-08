@@ -195,7 +195,7 @@ describe("Map Key2Key Test", function () {
 
                 //@mp
                 //orderid: string;
-                orderid: null,
+                //orderid: null,
 
                 //@mp
                 //detail: MyClassDetail;

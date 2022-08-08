@@ -1,41 +1,53 @@
 # meta-mapper
-Class based type(object) - mapper(shaper) via meta-data (reflect)
+Class based type(object) - mapper(shaper) via meta-data (reflect).
 
 ## Use scenario
-```
-1. Format & sharp the input request data from web input.
-Example a { name: "shadow", val: "456", date: "2022-01-01" } send from client, we'll need to convert it to { name: string, val: number, date: Date } for usage.
-```
+* Map & sharp the data from request.
+    > Example data `{ name: "shadow", val: "456", date: "2022-01-01", others: "..." }` send from client, we'll need to map & sharp it to `{ name: string, val: number, date: Date }`.
 
-```
-2. Db access need to convert your define class object to db object.
-Exmaple a defined object { myName: "shadow" } wanna to map to db object { my_name: "shadow" } & save in PG.
-```
+* Db access need to convert your define class object to db object.
+    > Exmaple a defined object `{ myName: "shadow" }` wanna to map to db object `{ my_name: "shadow" }` & save in Db, or vice versa.
 
 ## Features
+* Support basic type Number | String | Boolean | Object.
+* Support instance type Enum | Any | Date | Array.
+* Support nest structure.
+* Validation is on-going.
 
-```
-1. Support basic type Number | String | Boolean | Object
-2. Support instance type Enum | Any | Array
-3. Support nest structure
-4. Validation is on-goging
-```
 
 ## Limitations
+* Generic type not support yet.
+* Support class definition instead of object type constraint definition.
+* Support enum { ... } instead of declare type = ... | ...
+* Do not support cycle structure.
+    > If the structure can't use JSON.stringify, then don't use meta-mapper please.
+* Do not support custom map function yet.
 
-```
-1. Generic type not support yet
-2. Support class definition instead of object type constraint definition
-3. Support enum { ... } instead of declare type = ... | ...
-4. Do not support cycle structure
-    > If the structure can't use JSON.stringify, then don't use meta-mapper please
-5. 
-```
+## Other Notes
+* Null/Undefined is allowed & supported by default as "values" instead of "types".
 
-## Example
+
+## Mapper Options
+Option | Default Value | Description
+--- | --- | ---
+**from** | `PropertyKey` | map from the property-key field, otherwise set **as** `MetaName` if from the meta-name please.
+**to** | `PropertyKey` | map to the property-key field, otherwise set as `MetaName` if to the meta-name please.
+**validate** | `true` | global swith: run validation check or not
+**validateUndefined** | `false` | global swith: when validate, should we **validate** undefined value or not.
+**validateNull** | `true` | global swith: when validate, should we validate null value or not.
+**keepArrayLengthMatch** | `true` | when map failed on an array item, should we still set as "undefined" to keep the array length or not.
+
+
+## Performance
+A simple map action would cost 10 ~ 30(us).
+A complex map action would cost about 100+(us) depends your data structure.
+> refer: $/test/performance.test.ts to check whether it could match your expectation or not please.
+
+## Code Example
+> refer: $/test/readme.test.ts as well pleae.
+
 ```typescript
 
-//refer: $/test/readme.test.ts as well.
 
 //1. define your class w/ meta
 //@mc short for Meta-Class
@@ -47,6 +59,8 @@ class PagingData {
     code: string;
 
     //meta-alias is "value" instead of "val"
+    //Note here mark the real data-type of the "val" | "value" as "Number" (instead of the define type "String")
+    //In later map action, no matter what data-type of the "val" | "value" is, the mapper would try to conver it to "Number" type.
     @mp("value", Number)
     val: string;
 }
@@ -66,7 +80,7 @@ class Paging {
 
     //first parameter is "" or null indicates the meta-name is same as the property name, here it's "data" as well.
     @mp("", Array, PagingData)
-    data: PagingData[]
+    data: PagingData[];
 }
 ```
 
@@ -104,11 +118,7 @@ let pAssert = {
         { code: "s-001", value: 1 },
         { code: "s-002", value: 2 }
     ]
-}
+};
 assert.strictEqual(JSON.stringify(p.rtn), JSON.stringify(pAssert));
 assert.strictEqual(p.rtn.date instanceof Date, true);
-```
-
-## Mapper Options
-```
 ```

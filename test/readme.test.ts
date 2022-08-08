@@ -30,10 +30,10 @@ class Paging {
     date: Date;
 
     @mp("", Array, PagingData)
-    data: PagingData[]
+    data: PagingData[];
 }
 
-const mapper = new MetaMapper({ to: MetaMapOn.Meta });
+const mapper = new MetaMapper({ to: MetaMapOn.MetaName });
 
 describe("ReadMe - Test", function () {
     

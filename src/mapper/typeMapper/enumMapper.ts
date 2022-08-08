@@ -45,7 +45,7 @@ export class EnumMapper implements IMetaTypeMapper {
                     reason: `Can't map from number: ${obj}`
                 }
             };
-        };
+        }
 
         let match = EnumUtil.tryMatch(enumObj, obj);
         if (match.match) {

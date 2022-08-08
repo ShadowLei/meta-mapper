@@ -27,7 +27,7 @@ export class MetaBase {
     }
 
     getMapKey(mapOn: MetaMapOn): string {
-        return mapOn === MetaMapOn.Key ? this.key : this.name;
+        return mapOn === MetaMapOn.PropertyKey ? this.key : this.name;
     }
 }
 
