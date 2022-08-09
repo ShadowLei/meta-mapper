@@ -1,6 +1,6 @@
 import { MetaClass } from "../../meta/_model";
 import { NumberUtil } from "../../util";
-import { IMetaTypeMapper, ITypeMapper, MapperRtn, TypeString } from "./itypeMapper";
+import { IMetaTypeMapper, ITypeMapper, MapperRtn, TypeString } from "./iTypeMapper";
 import { MapperBase } from "./mapperBase";
 
 class StringMapper_FromString implements ITypeMapper {

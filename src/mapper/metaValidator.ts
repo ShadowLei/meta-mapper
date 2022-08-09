@@ -1,6 +1,6 @@
 import { MetaProperty } from "../meta/_model";
 import { MetaMapperWrapper } from "./metaMapperWrapper";
-import { MapperRtnError } from "./typeMapper/itypeMapper";
+import { MapperRtnError } from "./typeMapper/iTypeMapper";
 
 export class MetaValidator {
     validate(wrapper: MetaMapperWrapper, propMeta: MetaProperty, propVal: any): Array<MapperRtnError> {

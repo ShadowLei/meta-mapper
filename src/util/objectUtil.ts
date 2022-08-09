@@ -1,4 +1,4 @@
-import { TypeString } from "../mapper/typeMapper/itypeMapper";
+import { TypeString } from "../mapper/typeMapper/iTypeMapper";
 
 export namespace ObjectUtil {
     export function isNullOrUndefined(obj: any): boolean {

@@ -1,7 +1,7 @@
 import { MetaBase } from "../../meta/_model";
 import { ObjectUtil } from "../../util";
 import { MetaMapperWrapper } from "../metaMapperWrapper";
-import { IMetaTypeMapper, ITypeMapper, MapperErrorCode, MapperRtn, TypeString } from "./itypeMapper";
+import { IMetaTypeMapper, ITypeMapper, MapperErrorCode, MapperRtn, TypeString } from "./iTypeMapper";
 
 
 export abstract class MapperBase implements IMetaTypeMapper {

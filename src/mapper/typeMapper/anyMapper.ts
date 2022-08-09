@@ -1,7 +1,7 @@
 import { MetaBase } from "../../meta/_model";
 import { MetaMapperWrapper } from "../metaMapperWrapper";
 import { Any } from "../_model";
-import { IMetaTypeMapper, ITypeMapper, MapperRtn, TypeString } from "./itypeMapper";
+import { IMetaTypeMapper, MapperRtn } from "./iTypeMapper";
 
 export class AnyMapper implements IMetaTypeMapper {
 

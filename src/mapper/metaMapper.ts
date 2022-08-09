@@ -1,6 +1,6 @@
 import { ClassConstructorGeneric } from "../define";
 import { MetaUtil } from "../util";
-import { MapperRtn } from "./typeMapper/itypeMapper";
+import { MapperRtn } from "./typeMapper/iTypeMapper";
 import { MetaMapperOption } from "./_model";
 import { MetaDefineException } from "../exception";
 import { mapperFac } from "./_const";

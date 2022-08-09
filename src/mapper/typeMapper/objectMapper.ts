@@ -4,7 +4,7 @@ import { MetaArray, MetaBase, MetaClass, MetaProperty } from "../../meta/_model"
 import { MetaUtil, NumberUtil, ObjectUtil } from "../../util";
 import { MetaMapperWrapper } from "../metaMapperWrapper";
 import { Enum, MetaMapOn } from "../_model";
-import { IMetaTypeMapper, ITypeMapper, MapperRtn, TypeString } from "./itypeMapper";
+import { IMetaTypeMapper, ITypeMapper, MapperRtn, TypeString } from "./iTypeMapper";
 
 export class ObjectMapper implements IMetaTypeMapper {
 

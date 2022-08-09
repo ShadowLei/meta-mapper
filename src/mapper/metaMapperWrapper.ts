@@ -1,7 +1,7 @@
 import { Stack } from "../util";
 import { MetaMapper } from "./metaMapper";
 import { MetaProcessData } from "./metaProcessData";
-import { MapperRtnError } from "./typeMapper/itypeMapper";
+import { MapperRtnError } from "./typeMapper/iTypeMapper";
 import { MetaMapperOption } from "./_model";
 
 export class MetaMapperWrapper {

@@ -2,7 +2,7 @@ import { MetaDefineException } from "../../exception";
 import { MetaBase, MetaArray } from "../../meta/_model";
 import { ObjectUtil } from "../../util";
 import { MetaMapperWrapper } from "../metaMapperWrapper";
-import { IMetaTypeMapper, MapperRtn } from "./itypeMapper";
+import { IMetaTypeMapper, MapperRtn } from "./iTypeMapper";
 
 export class ArrayMapper implements IMetaTypeMapper {
 

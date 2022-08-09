@@ -3,7 +3,7 @@ import { MetaBase } from "../../meta/_model";
 import { EnumUtil, NumberUtil, ObjectUtil, StringUtil } from "../../util";
 import { MetaMapperWrapper } from "../metaMapperWrapper";
 import { Enum } from "../_model";
-import { IMetaTypeMapper, ITypeMapper, MapperRtn, TypeString } from "./itypeMapper";
+import { IMetaTypeMapper, ITypeMapper, MapperRtn, TypeString } from "./iTypeMapper";
 
 export class EnumMapper implements IMetaTypeMapper {
     match(meta: MetaBase): boolean {

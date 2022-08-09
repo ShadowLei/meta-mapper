@@ -5,7 +5,7 @@ import { ArrayMapper } from "./arrayMapper";
 import { BooleanMapper } from "./booleanMapper";
 import { DateMapper } from "./dateMapper";
 import { EnumMapper } from "./enumMapper";
-import { IMetaTypeMapper, MapperRtn } from "./itypeMapper";
+import { IMetaTypeMapper, MapperRtn } from "./iTypeMapper";
 import { NumberMapper } from "./numberMapper";
 import { ObjectMapper } from "./objectMapper";
 import { StringMapper } from "./stringMapper";
