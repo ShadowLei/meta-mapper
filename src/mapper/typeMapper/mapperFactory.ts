@@ -33,7 +33,7 @@ export class MapperFactory {
 
             rtn = m.map<T>(wrapper, meta, obj);
 
-            if (!rtn.mapped) {
+            if (!rtn.mapped && rtn.error) {
                 rtn.error.name = wrapper.getStackName();
             }
 

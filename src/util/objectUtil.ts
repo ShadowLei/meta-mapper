@@ -5,6 +5,10 @@ export namespace ObjectUtil {
         return (obj === null || obj === undefined);
     }
 
+    export function isNotNullOrUndefined(obj: any): boolean {
+        return !isNullOrUndefined(obj);
+    }
+
     export function getTypeString(obj: any): TypeString {
         if (obj === null) {
             return "null";

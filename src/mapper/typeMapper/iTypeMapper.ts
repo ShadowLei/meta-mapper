@@ -2,11 +2,11 @@ import { MetaBase } from "../../meta/_model";
 import { MetaMapperWrapper } from "../metaMapperWrapper";
 
 export type MapperErrorCode = "BooleanMapper" | "ArrayMapper" | "DateMapper" | "StringMapper" | "NumberMapper" | "ObjectMapper" | "EnumMapper" |
-    "Mismatch";
+    "Mismatch" | "Validation";
 
 export interface MapperRtnError {
+    code: MapperErrorCode | string;
     name: string;
-    code: MapperErrorCode;
     reason: string;
 }
 

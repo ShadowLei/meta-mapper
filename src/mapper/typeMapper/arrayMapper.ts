@@ -38,6 +38,8 @@ export class ArrayMapper implements IMetaTypeMapper {
 
         let arr = new Array<any>();
 
+        let mapped = true;
+
         obj.forEach((m, idx) => {
             //Dyanmic Meta - MetaArray
             let md = new MetaArray();
@@ -48,7 +50,18 @@ export class ArrayMapper implements IMetaTypeMapper {
             md.name = `$[${idx}]`;
             
             let itemRtn = wrapper.mapper.mapWithMeta<any>(md, m);
+            if (!itemRtn.mapped) { mapped = false; }
             
+            //the item might be an object
+            //as for the try-max-match strategy, we'll set it when not null
+            if (!ObjectUtil.isNullOrUndefined(itemRtn.rtn)) {
+                arr.push(itemRtn.rtn);
+            }
+            else if (!itemRtn.mapped && wrapper.opt.keepArrayLengthMatch) {
+                arr.push(undefined);
+            }
+
+            /*
             if (itemRtn.mapped) {
                 arr.push(itemRtn.rtn);
             } else {
@@ -57,10 +70,11 @@ export class ArrayMapper implements IMetaTypeMapper {
                     arr.push(undefined);
                 }
             }
+            */
         });
 
         return {
-            mapped: true,
+            mapped: mapped,
             rtn: arr
         };
     }

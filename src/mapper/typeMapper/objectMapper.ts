@@ -76,23 +76,26 @@ export class ObjectMapper implements IMetaTypeMapper {
             //lead the inspectType as the real type & convert from it.
             let mapObj = new meta.inspectType();   //new object
 
+            let mapped = true;
             //Base-Type Properties
             for (let i = meta.metaTypes.length - 1; i >= 0; i--) {
                 let baseType = meta.metaTypes[i];
                 let baseTypeMC = MetaUtil.getMC(baseType as ClassConstructor);
                 baseTypeMC.properties.forEach(p => {
-                    this.mapProperty(wrapper, p, mapObj, obj);
+                    let propMapRtn = this.mapProperty(wrapper, p, mapObj, obj);
+                    if (!propMapRtn) { mapped = false; }
                 });
             }
 
             //Current-Type Properties
             meta.properties.forEach(p => {
-                this.mapProperty(wrapper, p, mapObj, obj);
+                let propMapRtn = this.mapProperty(wrapper, p, mapObj, obj);
+                if (!propMapRtn) { mapped = false; }
             });
 
             //TODO here: validator
             return {
-                mapped: true,
+                mapped: mapped,
                 rtn: mapObj
             };
         }

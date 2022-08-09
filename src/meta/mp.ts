@@ -16,7 +16,7 @@ function verifyMP(target: any, propertyKey: string, originalType: Function): voi
 }
 
 export function mp(cls: object, propertyKey: string): void;
-export function mp(name: string, ...types: Function[]): Function;
+export function mp(name?: string, ...types: Function[]): Function;
 export function mp(wTarget: any, wPropertyKey: string | Function, ...types: Function[]): void | Function {
     if (typeof wTarget === "string" || ObjectUtil.isNullOrUndefined(wTarget)) {
         //Wrapper Format

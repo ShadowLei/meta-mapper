@@ -4,8 +4,11 @@ import { MapperRtn } from "./typeMapper/itypeMapper";
 import { MetaMapperOption } from "./_model";
 import { MetaDefineException } from "../exception";
 import { mapperFac } from "./_const";
-import { MetaBase } from "../meta/_model";
+import { MetaBase, MetaProperty } from "../meta/_model";
 import { MetaMapperWrapper } from "./metaMapperWrapper";
+import { MetaValidator } from "./metaValidator";
+
+const validator = new MetaValidator();
 
 export class MetaMapper {
     private wrapper: MetaMapperWrapper;
@@ -59,6 +62,16 @@ export class MetaMapper {
 
         if (!rtn.mapped && rtn.error) {
             this.wrapper.errors.push(rtn.error);
+        }
+        //validation
+        else if (rtn.mapped && (meta instanceof MetaProperty)) {
+            let errors = validator.validate(this.wrapper, meta, rtn.rtn);
+            if (errors?.length > 0) {
+                rtn.mapped = false;
+                rtn.rtn = null;
+                rtn.error = errors[errors.length - 1];
+                this.wrapper.errors.push(...errors);
+            }
         }
 
         this.wrapper.mapDataStack.pop();
