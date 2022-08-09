@@ -1,21 +1,26 @@
-# meta-mapper
-Class based type(object) - mapper(shaper) via meta-data (reflect).
+# <font color=lightblue>meta-mapper</font>
+<b>Class based type(object) - mapper(shaper) via meta-data (reflect).</b>
 
-## Use scenario
+- - -
+
+## <font color=lightblue>Use scenario</font>
 * Map & sharp the data from request.
     > Example data `{ name: "shadow", val: "456", date: "2022-01-01", others: "..." }` send from client, we'll need to map & sharp it to `{ name: string, val: number, date: Date }`.
 
 * Db access need to convert your define class object to db object.
     > Exmaple a defined object `{ myName: "shadow" }` wanna to map to db object `{ my_name: "shadow" }` & save in Db, or vice versa.
 
-## Features
-* Support basic type Number | String | Boolean | Object.
-* Support instance type Enum | Any | Date | Array.
+- - -
+
+## <font color=lightblue>Feature</font>
+* Support basic type `Number` | `String` | `Boolean` | `Object`.
+* Support instance type `Enum` | `Any` | `Date` | `Array`.
 * Support nest structure.
-* Validation is on-going.
+* Support validation on property.
 
+- - -
 
-## Limitations
+## <font color=lightblue>Limitation</font>
 * Generic type not support yet.
 * Support class definition instead of object type constraint definition.
 * Support enum { ... } instead of declare type = ... | ...
@@ -23,11 +28,14 @@ Class based type(object) - mapper(shaper) via meta-data (reflect).
     > If the structure can't use JSON.stringify, then don't use meta-mapper please.
 * Do not support custom map function yet.
 
-## Other Notes
+- - -
+
+## <font color=lightblue>Other Note</font>
 * Null/Undefined is allowed & supported by default as "values" instead of "types".
 
+- - -
 
-## Mapper Options
+## <font color=lightblue>Mapper Option</font>
 Option | Default Value | Description
 --- | --- | ---
 **from** | `PropertyKey` | map from the property-key field, otherwise set **as** `MetaName` if from the meta-name please.
@@ -37,13 +45,16 @@ Option | Default Value | Description
 **validateNull** | `true` | global swith: when validate, should we validate null value or not.
 **keepArrayLengthMatch** | `true` | when map failed on an array item, should we still set as "undefined" to keep the array length or not.
 
+- - -
 
-## Performance
+## <font color=lightblue>Performance</font>
 A simple map action would cost 10 ~ 30(us).
 A complex map action would cost about 100+(us) depends your data structure.
 > refer: $/test/performance.test.ts to check whether it could match your expectation or not please.
 
-## Code Example
+- - -
+
+## <font color=lightblue>Code Example</font>
 > refer: $/test/readme.test.ts as well pleae.
 
 ```typescript
@@ -122,3 +133,13 @@ let pAssert = {
 assert.strictEqual(JSON.stringify(p.rtn), JSON.stringify(pAssert));
 assert.strictEqual(p.rtn.date instanceof Date, true);
 ```
+
+- - -
+
+## <font color=lightblue>Design</font>
+
+* MetaMapper-Flow:
+![MetaMapper-Flow](/design/MetaMapper%402x.png)
+
+* MetaMapper-DataType:
+![MetaMapper-DataType](/design/MetaMapper-DataType%402x.png)
