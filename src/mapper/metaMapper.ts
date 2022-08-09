@@ -25,29 +25,31 @@ export class MetaMapper {
         this.wrapper.mapper = this;
     }
 
-
     map<T>(type: ClassConstructorGeneric<T>, obj: any): MapperRtn<T> {
         this.wrapper.clear();
 
-        let rtn = this.mapWith(type, obj);
+        let meta = MetaUtil.getMCWithBaseType(type);
+        if (!meta) {
+            throw new MetaDefineException(type.toString(), `map: Can't get meta-class based on: ${type}`);
+        }
+        let rtn = this.mapWithMeta<T>(meta, obj);
         rtn.errors = this.wrapper.errors;
 
         return rtn;
     }
 
-    mapWith<T>(type: ClassConstructorGeneric<T> | MetaBase, obj: any): MapperRtn<T> {
-        let meta: MetaBase = null;
-        
-        if (type instanceof MetaBase) {
-            meta = type;
-        } else {
-            let mc = MetaUtil.getMC(type);
-            if (!mc) {
-                throw new MetaDefineException(type.toString(), `map: Can't get meta-class based on: ${type}`);
-            }
-            meta = mc;
+    //don't call: internal usage
+    mapWithType<T>(type: ClassConstructorGeneric<T>, obj: any): MapperRtn<T> {
+        let meta = MetaUtil.getMC(type);
+        if (!meta) {
+            throw new MetaDefineException(type.toString(), `map: Can't get meta-class based on: ${type}`);
         }
 
+        return this.mapWithMeta<T>(meta, obj);
+    }
+
+    //don't call: internal usage
+    mapWithMeta<T>(meta: MetaBase, obj: any): MapperRtn<T> {
         this.wrapper.mapDataStack.push({
             meta: meta,
             obj: obj

@@ -47,7 +47,7 @@ export class ArrayMapper implements IMetaTypeMapper {
             md.key = `$[${idx}]`;
             md.name = `$[${idx}]`;
             
-            let itemRtn = wrapper.mapper.mapWith<any>(md, m);
+            let itemRtn = wrapper.mapper.mapWithMeta<any>(md, m);
             
             if (itemRtn.mapped) {
                 arr.push(itemRtn.rtn);

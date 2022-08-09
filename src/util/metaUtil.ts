@@ -1,12 +1,21 @@
 import { ClassConstructor } from "../define";
-import { tryGetDefaultMC } from "../meta/_meta";
+import { tryGetMCWithBaseType } from "../meta/_meta";
 import { MetaClass, MetaProperty } from "../meta/_model";
 
 export namespace MetaUtil {
 
     export function getMC(cls: ClassConstructor): MetaClass {
 
-        let mcDefault = tryGetDefaultMC(cls);
+        //let mcDefault = tryGetMCWithBaseType(cls);
+        //if (mcDefault) { return mcDefault; }
+
+        let meta: MetaClass = Reflect.getMetadata(cls, cls);
+        return meta;
+    }
+
+    export function getMCWithBaseType(cls: ClassConstructor): MetaClass {
+
+        let mcDefault = tryGetMCWithBaseType(cls);
         if (mcDefault) { return mcDefault; }
 
         let meta: MetaClass = Reflect.getMetadata(cls, cls);

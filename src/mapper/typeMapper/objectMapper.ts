@@ -3,13 +3,12 @@ import { MetaMapException } from "../../exception/metaMapException";
 import { MetaArray, MetaBase, MetaClass, MetaProperty } from "../../meta/_model";
 import { MetaUtil, NumberUtil, ObjectUtil } from "../../util";
 import { MetaMapperWrapper } from "../metaMapperWrapper";
-import { MetaMapOn } from "../_model";
+import { Enum, MetaMapOn } from "../_model";
 import { IMetaTypeMapper, ITypeMapper, MapperRtn, TypeString } from "./itypeMapper";
 
 export class ObjectMapper implements IMetaTypeMapper {
 
     match(meta: MetaBase): boolean {
-        //NOTE: it's the default analysis
         return true;
     }
 
@@ -43,18 +42,7 @@ export class ObjectMapper implements IMetaTypeMapper {
         //get from origin
         let propKeyVal = this.getProp(origin, propMeta, wrapper.opt.from);
 
-        let prop = wrapper.mapper.mapWith(propMeta, propKeyVal.val);
-
-        //set to target
-        /*
-        if ((prop.rtn === undefined && !wrapper.opt.mapUndefined) ||
-            (prop.rtn === null && !wrapper.opt.mapNull)) {
-            //ignore
-        } else {
-            //set
-            this.setProp(mapObj, prop.rtn, propMeta, wrapper.opt.to);
-        }
-        */
+        let prop = wrapper.mapper.mapWithMeta(propMeta, propKeyVal.val);
 
         if (!ObjectUtil.isNullOrUndefined(prop.rtn)) {
             this.setProp(mapObj, prop.rtn, propMeta, wrapper.opt.to);
@@ -109,11 +97,11 @@ export class ObjectMapper implements IMetaTypeMapper {
             };
         }
         else if (meta instanceof MetaProperty) {
-            let mapRtn = wrapper.mapper.mapWith(meta.inspectType, obj);
+            let mapRtn = wrapper.mapper.mapWithType(meta.inspectType, obj);
             return mapRtn;
         }
         else if (meta instanceof MetaArray) {
-            let mapRtn = wrapper.mapper.mapWith(meta.inspectType, obj);
+            let mapRtn = wrapper.mapper.mapWithType(meta.inspectType, obj);
             return mapRtn;
         }
 

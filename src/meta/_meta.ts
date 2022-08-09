@@ -60,7 +60,7 @@ mcDefault.push(new NumberMeta());
 mcDefault.push(new BooleanMeta());
 mcDefault.push(new DateMeta());
 
-export function tryGetDefaultMC(cls: ClassConstructor): MetaClass {
+export function tryGetMCWithBaseType(cls: ClassConstructor): MetaClass {
     let rtn = mcDefault.find(m => m.inspectType === cls);
     return rtn;
 }

@@ -67,7 +67,7 @@ describe("Performance Test", function () {
             }
             let dEnd = new Date().getTime();
 
-            let duration = (dEnd - dStart)
+            let duration = (dEnd - dStart);
             console.info(duration);
 
             //@mc
@@ -127,7 +127,7 @@ describe("Performance Test", function () {
             }
             let dEnd = new Date().getTime();
 
-            let duration = (dEnd - dStart)
+            let duration = (dEnd - dStart);
             console.info(duration);
 
             //@mc
