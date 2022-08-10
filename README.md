@@ -3,6 +3,9 @@ Class based type(object) - mapper(shaper) via meta-data (reflect).
 
 - - -
 
+## Install
+npm install --save meta-mapper
+
 ## Use scenario
 * Map & sharp the data from request.
     > Example data `{ name: "shadow", val: "456", date: "2022-01-01", others: "..." }` send from client, we'll need to map & sharp it to `{ name: string, val: number, date: Date }`.
@@ -30,8 +33,9 @@ Class based type(object) - mapper(shaper) via meta-data (reflect).
 
 - - -
 
-## Other Note
+## Others
 * Null/Undefined is allowed & supported by default as "values" instead of "types".
+* Less dependency, only depends on "reflect-metadata"
 
 - - -
 
