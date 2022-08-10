@@ -1,9 +1,9 @@
-# <font color=lightblue>meta-mapper</font>
-<b>Class based type(object) - mapper(shaper) via meta-data (reflect).</b>
+# meta-mapper
+Class based type(object) - mapper(shaper) via meta-data (reflect).
 
 - - -
 
-## <font color=lightblue>Use scenario</font>
+## Use scenario
 * Map & sharp the data from request.
     > Example data `{ name: "shadow", val: "456", date: "2022-01-01", others: "..." }` send from client, we'll need to map & sharp it to `{ name: string, val: number, date: Date }`.
 
@@ -12,7 +12,7 @@
 
 - - -
 
-## <font color=lightblue>Feature</font>
+## Feature
 * Support basic type `Number` | `String` | `Boolean` | `Object`.
 * Support instance type `Enum` | `Any` | `Date` | `Array`.
 * Support nest structure.
@@ -20,7 +20,7 @@
 
 - - -
 
-## <font color=lightblue>Limitation</font>
+## Limitation
 * Generic type not support yet.
 * Support class definition instead of object type constraint definition.
 * Support enum { ... } instead of declare type = ... | ...
@@ -30,12 +30,12 @@
 
 - - -
 
-## <font color=lightblue>Other Note</font>
+## Other Note
 * Null/Undefined is allowed & supported by default as "values" instead of "types".
 
 - - -
 
-## <font color=lightblue>Mapper Option</font>
+## Mapper Option
 Option | Default Value | Description
 --- | --- | ---
 **from** | `PropertyKey` | map from the property-key field, otherwise set **as** `MetaName` if from the meta-name please.
@@ -47,14 +47,14 @@ Option | Default Value | Description
 
 - - -
 
-## <font color=lightblue>Performance</font>
+## Performance
 A simple map action would cost 10 ~ 30(us).
 A complex map action would cost about 100+(us) depends your data structure.
 > refer: $/test/performance.test.ts to check whether it could match your expectation or not please.
 
 - - -
 
-## <font color=lightblue>Code Example</font>
+## Code Example
 > refer: $/test/readme.test.ts as well pleae.
 
 ```typescript
@@ -136,7 +136,7 @@ assert.strictEqual(p.rtn.date instanceof Date, true);
 
 - - -
 
-## <font color=lightblue>Design</font>
+## Design
 
 * MetaMapper-Flow:
 ![MetaMapper-Flow](/design/MetaMapper%402x.png)
