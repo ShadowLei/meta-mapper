@@ -6,7 +6,7 @@
   "typings-debug": "./src/index",
   "repository": "git@github.com:ShadowLei/meta-mapper.git",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "ShadowLei:registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "start": "ts-node src/app.ts",
