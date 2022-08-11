@@ -6,15 +6,16 @@ npm install --save meta-mapper
 
 ## Use scenario
 * Map & sharp the data from request.
-    > Example data `{ name: "shadow", val: "456", date: "2022-01-01", others: "..." }` send from client, we'll need to map & sharp it to `{ name: string, val: number, date: Date }`.
+    > Example: data `{ name: "shadow", val: "456", date: "2022-01-01", others: "..." }` send from client, we'll need to map & sharp it to `{ name: string, val: number, date: Date }`.
 
 * Db access need to convert your define class object to db object.
-    > Exmaple a defined object `{ myName: "shadow" }` wanna to map to db object `{ my_name: "shadow" }` & save in Db, or vice versa.
+    > Example: a defined object `{ myName: "shadow" }` wanna to map to db object `{ my_name: "shadow" }` & save in Db, or vice versa.
 
 ## Feature
 * Support basic type `Number` | `String` | `Boolean` | `Object`.
 * Support instance type `Enum` | `Any` | `Date` | `Array`.
 * Support nest structure.
+* Support super class.
 * Support validation function on property.
 * Try map as much as possible, the `errors` indicates mapping issues.
 
@@ -26,11 +27,41 @@ npm install --save meta-mapper
     > If the structure can't use JSON.stringify, then don't use meta-mapper please.
 * Do not support custom map function yet.
 
+## Performance
+Below performance test based on: 2.4 GHz 8-Core Intel Core i9 + 64G Memory.
+* A simple class structure - map action would cost 10 ~ 30(us).
+* A complex class structure - map action would cost about 100+(us) depends your data structure.
+> ref: check $/test/performance.test.ts for more details please.
 
 ## Others
 * Null/Undefined is allowed & supported by default as "values" instead of "types".
 * Less dependency, only depends on "reflect-metadata"
 
+## API
+* `@mc(name: string, types: ClassConstructor[])`
+    > when define a class, attach `@mc` on the class as a meta class data.  
+    > Example: `@mc("my_class", ClassBase)` for class `class MyClass extends ClassBase`.
+    - name: meta-name (alias) of your class. By default `null` | `""` indicates the same as the class-name. 
+    - type: super types of the class.
+* `@mp(name: string, types: ClassConstructor[] | Function[])`
+    > when define a property, attach `@mp` on the property as a meta property data.
+    - name: meta-name (alias) of your property. By default `null` | `""` indicates the same as thhe property-name.
+    - types: internal nest types of the property.
+        * `Any`: means should ignore the map action on this property, keep as it is.
+        * `Array`: when it's an array, need to define as `Array`, and the internal element type of the `Array`.
+            > Example: `@mp("custom_array", Array, MyCustomClass)` for property `custom_array: MyCustomClass[]`.
+        * `Enum`: when it's an enum defined w/ `enum XXX {...}`, need to set as `Enum` and the real enum object type.
+            > Example: `@mp("my_enum", Enum, () => MyEnum)` for property `my_enum: MyEnum`.
+* `@mv_???`
+    > Validation function. Use mv_custom to define customized validation function please.
+* `new(opt: MetaMapperOption)`
+    > Define your mapper w/ custom mapper options.
+    - opt: check the option below please.
+* `map(type: ClassConstructorGeneric<T>, obj: any): MapperRtn<T>`
+    > map from any object input to defined class data type.  
+    > Example: `@mp("my_enum", Enum, () => MyEnum)` for property `my_enum: MyEnum`.
+    - type: the class type you wanna to map to.
+    - obj: the object you wanna to map from.
 
 ## Mapper Option
 Option | Default Value | Description
@@ -43,14 +74,8 @@ Option | Default Value | Description
 **keepArrayLengthMatch** | `true` | when map failed on an array item, should we still set as "undefined" to keep the array length or not.
 
 
-## Performance
-A simple map action would cost 10 ~ 30(us).
-A complex map action would cost about 100+(us) depends your data structure.
-> refer: $/test/performance.test.ts to check whether it could match your expectation or not please.
-
-
 ## Code Example
-> refer: $/test/readme.test.ts as well pleae.
+> ref: $/test/readme.test.ts as well pleae.
 
 ```typescript
 

@@ -12,14 +12,15 @@ function verifyMC(target: any, cls: ClassConstructor, name?: string): void {
 }
 
 export function mc(target: Function): void;
-export function mc(name: string, ...types: ClassConstructor[]): Function;
-export function mc(nameOrTarget: any, ...types: ClassConstructor[]): void | Function {
+export function mc(name: string, type?: ClassConstructor): Function;
+export function mc(nameOrTarget: any, type?: ClassConstructor): void | Function {
     if (typeof nameOrTarget === "string" || ObjectUtil.isNullOrUndefined(nameOrTarget)) {
         //Wrapper Format
         return function (target: Function) {
             let cls = target.prototype?.constructor as ClassConstructor;
             verifyMC(target, cls, nameOrTarget);
 
+            let types = type ? [type] : null;
             let meta = MetaUtil.defineMC(cls, nameOrTarget, types);
 
             Reflect.metadata(cls, meta);
