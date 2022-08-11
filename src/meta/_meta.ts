@@ -1,5 +1,4 @@
 import { ClassConstructor } from "../define";
-import { Any, Enum } from "../mapper";
 import { MetaClass } from "./_model";
 
 class StringMeta extends MetaClass {
@@ -34,29 +33,9 @@ class DateMeta extends MetaClass {
     }
 }
 
-/*
-class EnumMeta extends MetaClass {
-    constructor() {
-        super();
-        
-        this.rawType = Enum;
-    }
-}
-
-class AnyMeta extends MetaClass {
-    constructor() {
-        super();
-        
-        this.rawType = Any;
-    }
-}
-*/
-
 const mcDefault: MetaClass[] = [];
 mcDefault.push(new StringMeta());
 mcDefault.push(new NumberMeta());
-//mcDefault.push(new EnumMeta());
-//mcDefault.push(new AnyMeta());
 mcDefault.push(new BooleanMeta());
 mcDefault.push(new DateMeta());
 

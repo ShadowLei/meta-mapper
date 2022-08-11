@@ -1,6 +1,7 @@
 import { MetaBase } from "../../meta/_model";
-import { NumberUtil } from "../../util";
-import { IMetaTypeMapper, ITypeMapper, MapperRtn, TypeString } from "./iTypeMapper";
+import { NumberUtil, ValidateUtil } from "../../util";
+import { MapperRtn } from "../model";
+import { IMetaTypeMapper, ITypeMapper, TypeString } from "./iTypeMapper";
 import { MapperBase } from "./mapperBase";
 
 class NumberMapper_FromString implements ITypeMapper {
@@ -14,12 +15,14 @@ class NumberMapper_FromString implements ITypeMapper {
             rtn: null
         };
 
-        try {
-            rtn.rtn = parseFloat(obj);
-            rtn.mapped = NumberUtil.validate(rtn.rtn);
-        } catch {
-            rtn.mapped = false;
-        }
+        ValidateUtil.validate(rtn,
+            "NumberMapper",
+            `Not a validate number: ${obj}`,
+            () => {
+                rtn.rtn = parseFloat(obj);
+                return NumberUtil.validate(rtn.rtn);
+            }
+        );
 
         return rtn;
     }

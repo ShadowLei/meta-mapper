@@ -1,11 +1,12 @@
 import { MetaBase } from "../../meta/_model";
 import { MetaMapperWrapper } from "../metaMapperWrapper";
+import { MapperRtn } from "../model";
 import { AnyMapper } from "./anyMapper";
 import { ArrayMapper } from "./arrayMapper";
 import { BooleanMapper } from "./booleanMapper";
 import { DateMapper } from "./dateMapper";
 import { EnumMapper } from "./enumMapper";
-import { IMetaTypeMapper, MapperRtn } from "./iTypeMapper";
+import { IMetaTypeMapper } from "./iTypeMapper";
 import { NumberMapper } from "./numberMapper";
 import { ObjectMapper } from "./objectMapper";
 import { StringMapper } from "./stringMapper";

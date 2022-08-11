@@ -1,8 +1,6 @@
 # meta-mapper
 Class based type(object) - mapper(shaper) via meta-data (reflect).
 
-- - -
-
 ## Install
 npm install --save meta-mapper
 
@@ -13,15 +11,12 @@ npm install --save meta-mapper
 * Db access need to convert your define class object to db object.
     > Exmaple a defined object `{ myName: "shadow" }` wanna to map to db object `{ my_name: "shadow" }` & save in Db, or vice versa.
 
-- - -
-
 ## Feature
 * Support basic type `Number` | `String` | `Boolean` | `Object`.
 * Support instance type `Enum` | `Any` | `Date` | `Array`.
 * Support nest structure.
-* Support validation on property.
-
-- - -
+* Support validation function on property.
+* Try map as much as possible, the `errors` indicates mapping issues.
 
 ## Limitation
 * Generic type not support yet.
@@ -31,13 +26,11 @@ npm install --save meta-mapper
     > If the structure can't use JSON.stringify, then don't use meta-mapper please.
 * Do not support custom map function yet.
 
-- - -
 
 ## Others
 * Null/Undefined is allowed & supported by default as "values" instead of "types".
 * Less dependency, only depends on "reflect-metadata"
 
-- - -
 
 ## Mapper Option
 Option | Default Value | Description
@@ -49,14 +42,12 @@ Option | Default Value | Description
 **validateNull** | `true` | global swith: when validate, should we validate null value or not.
 **keepArrayLengthMatch** | `true` | when map failed on an array item, should we still set as "undefined" to keep the array length or not.
 
-- - -
 
 ## Performance
 A simple map action would cost 10 ~ 30(us).
 A complex map action would cost about 100+(us) depends your data structure.
 > refer: $/test/performance.test.ts to check whether it could match your expectation or not please.
 
-- - -
 
 ## Code Example
 > refer: $/test/readme.test.ts as well pleae.
@@ -137,8 +128,6 @@ let pAssert = {
 assert.strictEqual(JSON.stringify(p.rtn), JSON.stringify(pAssert));
 assert.strictEqual(p.rtn.date instanceof Date, true);
 ```
-
-- - -
 
 ## Design
 

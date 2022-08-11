@@ -1,9 +1,10 @@
 import { MetaProperty } from "../meta/_model";
+import { ValidateUtil } from "../util";
 import { MetaMapperWrapper } from "./metaMapperWrapper";
-import { MapperRtnError } from "./typeMapper/iTypeMapper";
+import { MapperError, MapperRtn } from "./model";
 
 export class MetaValidator {
-    validate(wrapper: MetaMapperWrapper, propMeta: MetaProperty, propVal: any): Array<MapperRtnError> {
+    validate(wrapper: MetaMapperWrapper, propMeta: MetaProperty, propVal: any): Array<MapperError> {
         let validate = wrapper.opt.validate && (propMeta.validators.length > 0);
         if (!validate) { return null; }
         
@@ -13,27 +14,27 @@ export class MetaValidator {
         }
 
         //call every validation function
-        let rtn: Array<MapperRtnError> = [];
+        let rtn: Array<MapperError> = [];
         propMeta.validators.forEach(m => {
-            let exp: any;
-            let validRtn = false;
             let params = [propVal, ...m.params];
-            try {
-                validRtn = m.validateFunc.apply(null, params);
-            } catch (e) {
-                exp = e;
-                validRtn = false;
-            }
+            let paramStr = params.join(", ");
 
-            if (!validRtn) {
-                let paramStr = params.join(", ");
-                let err: MapperRtnError = {
-                    name: wrapper.getStackName(),
-                    code: m.errCode || "Validation",
-                    reason: m.errMsg || exp?.message || `${m.validateFunc.name}(${paramStr})`
-                };
+            let validateRtn: MapperRtn<any> = {
+                mapped: true,
+                rtn: null
+            };
 
-                rtn.push(err);
+            ValidateUtil.validate(validateRtn,
+                m.errCode || "Validation",
+                m.errMsg || `${m.validateFunc.name}(${paramStr})`,
+                () => {
+                    return m.validateFunc.apply(null, params);
+                }
+            );
+
+            if (!validateRtn.mapped) {
+                validateRtn.error.name = wrapper.getStackName();
+                rtn.push(validateRtn.error);
             }
         });
 

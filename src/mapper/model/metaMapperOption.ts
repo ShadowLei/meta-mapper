@@ -1,15 +1,5 @@
-import { BooleanUtil } from "../util";
-
-export class Enum {
-}
-
-export class Any {
-}
-
-export enum MetaMapOn {
-    PropertyKey = "PropertyKey",
-    MetaName = "MetaName"
-}
+import { BooleanUtil } from "../../util";
+import { MetaMapOn } from "./define";
 
 export class MetaMapperOption {
     from: MetaMapOn;
@@ -36,3 +26,4 @@ export class MetaMapperOption {
         return rtn;
     }
 }
+

@@ -1,6 +1,7 @@
 import { MetaBase } from "../../meta/_model";
 import { NumberUtil } from "../../util";
-import { IMetaTypeMapper, ITypeMapper, MapperRtn, TypeString } from "./iTypeMapper";
+import { MapperRtn } from "../model";
+import { IMetaTypeMapper, ITypeMapper, TypeString } from "./iTypeMapper";
 import { MapperBase } from "./mapperBase";
 
 class BooleanMapper_FromString implements ITypeMapper {

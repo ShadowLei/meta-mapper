@@ -1,15 +1,14 @@
 import { Stack } from "../util";
 import { MetaMapper } from "./metaMapper";
 import { MetaProcessData } from "./metaProcessData";
-import { MapperRtnError } from "./typeMapper/iTypeMapper";
-import { MetaMapperOption } from "./_model";
+import { MapperError, MetaMapperOption } from "./model";
 
 export class MetaMapperWrapper {
     opt: MetaMapperOption;
     mapper: MetaMapper;
 
     mapDataStack: Stack<MetaProcessData>;
-    errors: MapperRtnError[];
+    errors: MapperError[];
 
     constructor() {
         this.mapDataStack = new Stack<MetaProcessData>();

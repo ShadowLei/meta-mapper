@@ -1,3 +1,3 @@
 
-export * from "./_model";
+export * from "./model";
 export * from "./metaMapper";

@@ -1,22 +1,6 @@
 import { MetaBase } from "../../meta/_model";
 import { MetaMapperWrapper } from "../metaMapperWrapper";
-
-export type MapperErrorCode = "BooleanMapper" | "ArrayMapper" | "DateMapper" | "StringMapper" | "NumberMapper" | "ObjectMapper" | "EnumMapper" |
-    "Mismatch" | "Validation";
-
-export interface MapperRtnError {
-    code: MapperErrorCode | string;
-    name: string;
-    reason: string;
-}
-
-export interface MapperRtn<T> {
-    mapped: boolean;
-    rtn?: T;
-
-    error?: MapperRtnError;
-    errors?: MapperRtnError[];
-}
+import { MapperRtn } from "../model";
 
 export interface IMetaTypeMapper {
     match(meta: MetaBase): boolean;

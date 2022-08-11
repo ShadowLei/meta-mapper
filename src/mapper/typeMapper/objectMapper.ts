@@ -1,10 +1,10 @@
 import { ClassConstructor } from "../../define";
 import { MetaMapException } from "../../exception/metaMapException";
 import { MetaArray, MetaBase, MetaClass, MetaProperty } from "../../meta/_model";
-import { MetaUtil, NumberUtil, ObjectUtil } from "../../util";
+import { MetaUtil, ObjectUtil } from "../../util";
 import { MetaMapperWrapper } from "../metaMapperWrapper";
-import { Enum, MetaMapOn } from "../_model";
-import { IMetaTypeMapper, ITypeMapper, MapperRtn, TypeString } from "./iTypeMapper";
+import { MetaMapOn, MapperRtn } from "../model";
+import { IMetaTypeMapper } from "./iTypeMapper";
 
 export class ObjectMapper implements IMetaTypeMapper {
 

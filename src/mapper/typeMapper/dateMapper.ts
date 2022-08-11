@@ -1,6 +1,7 @@
 import { MetaBase } from "../../meta/_model";
-import { NumberUtil } from "../../util";
-import { IMetaTypeMapper, ITypeMapper, MapperRtn, TypeString } from "./iTypeMapper";
+import { DateUtil, NumberUtil, ValidateUtil } from "../../util";
+import { MapperRtn } from "../model";
+import { IMetaTypeMapper, ITypeMapper, TypeString } from "./iTypeMapper";
 import { MapperBase } from "./mapperBase";
 
 class DateMapper_FromString implements ITypeMapper {
@@ -14,11 +15,34 @@ class DateMapper_FromString implements ITypeMapper {
             rtn: null
         };
 
+        ValidateUtil.validate(rtn,
+            "DateMapper",
+            `Not a validate date: ${obj}`,
+            () => {
+                rtn.rtn = new Date(Date.parse(obj as string));
+                return DateUtil.validate(rtn.rtn);
+            }
+        );
+
+        /*
+        let exp = null;
         try {
             rtn.rtn = new Date(Date.parse(obj as string));
-        } catch {
+            rtn.mapped = DateUtil.validate(rtn.rtn);
+        } catch (e) {
             rtn.mapped = false;
+            exp = e;
         }
+
+        if (!rtn.mapped) {
+            rtn.rtn = null;
+            rtn.error = {
+                code: "DateMapper",
+                name: null,
+                reason: exp?.message || `Not a validate date: ${obj}`
+            }
+        }
+        */
 
         return rtn;
     }
@@ -46,11 +70,14 @@ class DateMapper_FromNumber implements ITypeMapper {
             };
         }
 
-        try {
-            rtn.rtn = new Date(obj as number);
-        } catch {
-            rtn.mapped = false;
-        }
+        ValidateUtil.validate(rtn,
+            "DateMapper",
+            `Not a validate date: ${obj}`,
+            () => {
+                rtn.rtn = new Date(obj as number);
+                return DateUtil.validate(rtn.rtn);
+            }
+        );
 
         return rtn;
     }

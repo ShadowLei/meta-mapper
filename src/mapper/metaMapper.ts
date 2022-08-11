@@ -1,14 +1,11 @@
 import { ClassConstructorGeneric } from "../define";
 import { MetaUtil } from "../util";
-import { MapperRtn } from "./typeMapper/iTypeMapper";
-import { MetaMapperOption } from "./_model";
+import { MapperRtn, MetaMapperOption } from "./model";
 import { MetaDefineException } from "../exception";
-import { mapperFac } from "./_const";
+import { mapperFac, metaValidator } from "./_const";
 import { MetaBase, MetaProperty } from "../meta/_model";
 import { MetaMapperWrapper } from "./metaMapperWrapper";
-import { MetaValidator } from "./metaValidator";
 
-const validator = new MetaValidator();
 
 export class MetaMapper {
     private wrapper: MetaMapperWrapper;
@@ -35,8 +32,14 @@ export class MetaMapper {
         if (!meta) {
             throw new MetaDefineException(type.toString(), `map: Can't get meta-class based on: ${type}`);
         }
-        let rtn = this.mapWithMeta<T>(meta, obj);
-        rtn.errors = this.wrapper.errors;
+        let mapRtn = this.mapWithMeta<T>(meta, obj);
+        
+        //copy & output
+        let rtn: MapperRtn<T> = {
+            mapped: mapRtn.mapped,
+            rtn: mapRtn.rtn,
+            errors: this.wrapper.errors
+        };
 
         return rtn;
     }
@@ -65,7 +68,7 @@ export class MetaMapper {
         }
         //validation
         else if (rtn.mapped && (meta instanceof MetaProperty)) {
-            let errors = validator.validate(this.wrapper, meta, rtn.rtn);
+            let errors = metaValidator.validate(this.wrapper, meta, rtn.rtn);
             if (errors?.length > 0) {
                 rtn.mapped = false;
                 rtn.rtn = null;

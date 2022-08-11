@@ -6,13 +6,14 @@ export namespace NumberUtil {
         if (allowNull && ObjectUtil.isNullOrUndefined(val)) { return true; }
         if (typeof(val) !== "number") { return false; }
 
-        //if (val === Infinity) { return false; }
+        //NOTE: we regards Infinity (such as 1/0) is an invalid number.
+        if (val === Infinity) { return false; }
         if (isNaN(val)) { return false; }
 
-        if (!ObjectUtil.isNullOrUndefined(min) && val < min) {
+        if (!ObjectUtil.isNullOrUndefined(min) && (val < min)) {
             return false;
         }
-        if (!ObjectUtil.isNullOrUndefined(max) && val > max) {
+        if (!ObjectUtil.isNullOrUndefined(max) && (val > max)) {
             return false;
         }
 

@@ -1,9 +1,9 @@
 import { MetaDefineException } from "../../exception";
 import { MetaBase } from "../../meta/_model";
-import { EnumUtil, NumberUtil, ObjectUtil, StringUtil } from "../../util";
+import { EnumUtil, NumberUtil, ObjectUtil } from "../../util";
 import { MetaMapperWrapper } from "../metaMapperWrapper";
-import { Enum } from "../_model";
-import { IMetaTypeMapper, ITypeMapper, MapperRtn, TypeString } from "./iTypeMapper";
+import { Enum, MapperRtn } from "../model";
+import { IMetaTypeMapper } from "./iTypeMapper";
 
 export class EnumMapper implements IMetaTypeMapper {
     match(meta: MetaBase): boolean {
