@@ -8,7 +8,7 @@ function createMPV(cls: ClassConstructor, propertyKey: string, validateFunc: Val
     let validator = new MetaPropertyValidator();
 
     validator.validateFunc = validateFunc;
-    validator.params = params;
+    validator.params = params || [];
     validator.errCode = errCode;
     validator.errMsg = errMsg;
 
@@ -62,7 +62,7 @@ export function mv_not_null_or_undefined(wTarget: any, wPropertyKey?: string) {
     }
 }
 
-export function mv_custom(func: ValidateFuncType, params: any[], errCode?: string, errMsg?: string) {
+export function mv_custom(func: ValidateFuncType, params?: any[], errCode?: string, errMsg?: string) {
     return function (target: any, propertyKey: string) {
         let cls = target.constructor as ClassConstructor;
         createMPV(cls, propertyKey, func, params, errCode, errMsg);

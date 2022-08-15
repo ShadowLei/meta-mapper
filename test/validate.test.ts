@@ -3,9 +3,9 @@
 import { assert } from "chai";
 import {
     mc, mp,
-    Enum, MetaMapper, mv_number, MetaMapOn, mv_not_null_or_undefined, mv_string
+    Enum, MetaMapper, mv_number, MetaMapOn, mv_not_null_or_undefined, mv_string, mv_custom
 } from "../src";
-import { ObjectUtil } from "../src/util";
+import { BooleanUtil, NumberUtil, ObjectUtil } from "../src/util";
 
 @mc
 class PagingData {
@@ -39,11 +39,51 @@ class Paging {
     data: PagingData[];
 }
 
+
+function my_validate_number_about(val: number, aboutNum?: number): boolean {
+    if (ObjectUtil.isNullOrUndefined(val)) { return true; }
+
+    aboutNum = NumberUtil.asDefault(aboutNum, 100);
+    if (val >= aboutNum - 5 && val <= aboutNum + 5) {
+        return true;
+    }
+
+    return false;
+}
+
+function my_validate_string_all_digital(val: string): boolean {
+    if (ObjectUtil.isNullOrUndefined(val)) { return true; }
+
+    if (val.length <= 0) { return false; }
+
+    for (let idx = 0; idx < val.length; idx++) {
+        let c = val.charCodeAt(idx);
+        if (c < 48 || c > 57) { return false; }
+    }
+
+    return true;
+}
+
+@mc("my_c")
+class Custom {
+    @mp("co")
+    @mv_custom(my_validate_string_all_digital, [100], "the-code", "the-code must be about 100")
+    code: string;
+
+    @mp("vl")
+    @mv_custom(my_validate_number_about, [], "the-val", "val must be all digital number")
+    val: number;
+
+    @mp("vlx")
+    @mv_custom(my_validate_number_about)
+    valx: number;
+}
+
 const mapper = new MetaMapper({ to: MetaMapOn.MetaName });
 
 describe("Validation - Test", function () {
     
-    describe("validate", function () {
+    describe("mv", function () {
         it("case 0", () => {
             let obj = {
                 offset: 0,
@@ -168,6 +208,121 @@ describe("Validation - Test", function () {
             assert.strictEqual(p.errors[3].code, "Validation");
             assert.strictEqual(p.errors[3].name, "Paging.data.$[2].PagingData.code");
             assert.strictEqual(p.errors[3].reason, "isNotNullOrUndefined()");
+        });
+    });
+
+    
+    describe("mv_custom", function () {
+        it("case 0", () => {
+            let obj = {
+                code: "abc",
+                val: "def",
+                valx: "123"
+            };
+
+            let p = mapper.map(Custom, obj);
+
+            let pAssert = {
+            };
+
+            assert.strictEqual(ObjectUtil.isNullOrUndefined(p), false);
+            assert.strictEqual(p.mapped, false);
+            assert.strictEqual(JSON.stringify(p.rtn), JSON.stringify(pAssert));
+            assert.strictEqual(p.errors.length, 3);
+            assert.strictEqual(p.errors[0].code, "the-code");
+            assert.strictEqual(p.errors[0].name, "Custom.code");
+            assert.strictEqual(p.errors[0].reason, "the-code must be about 100");
+
+            assert.strictEqual(p.errors[1].code, "NumberMapper");
+            assert.strictEqual(p.errors[1].name, "Custom.val");
+            assert.strictEqual(p.errors[1].reason, `Not a validate number: ${obj.val}`);
+
+            assert.strictEqual(p.errors[2].code, "Validation");
+            assert.strictEqual(p.errors[2].name, "Custom.valx");
+            assert.strictEqual(p.errors[2].reason, `my_validate_number_about(${obj.valx})`);
+        });
+
+        it("case 1", () => {
+            let obj = {
+                co: "abc",
+                vl: "def",
+                vlx: "123"
+            };
+
+            let opt = {
+                from: MetaMapOn.MetaName,
+                to: MetaMapOn.PropertyKey,
+            };
+            let p = new MetaMapper(opt).map(Custom, obj);
+
+            let pAssert = {
+            };
+
+            assert.strictEqual(ObjectUtil.isNullOrUndefined(p), false);
+            assert.strictEqual(p.mapped, false);
+            assert.strictEqual(JSON.stringify(p.rtn), JSON.stringify(pAssert));
+            assert.strictEqual(p.errors.length, 3);
+            assert.strictEqual(p.errors[0].code, "the-code");
+            assert.strictEqual(p.errors[0].name, "my_c.co");
+            assert.strictEqual(p.errors[0].reason, "the-code must be about 100");
+
+            assert.strictEqual(p.errors[1].code, "NumberMapper");
+            assert.strictEqual(p.errors[1].name, "my_c.vl");
+            assert.strictEqual(p.errors[1].reason, `Not a validate number: ${obj.vl}`);
+
+            assert.strictEqual(p.errors[2].code, "Validation");
+            assert.strictEqual(p.errors[2].name, "my_c.vlx");
+            assert.strictEqual(p.errors[2].reason, `my_validate_number_about(${obj.vlx})`);
+        });
+
+        it("case 2", () => {
+            let obj = {
+                code: "123456789",
+                val: "100",
+                valx: "123"
+            };
+
+            let p = mapper.map(Custom, obj);
+
+            let pAssert = {
+                co: "123456789",
+                vl: 100
+            };
+
+            assert.strictEqual(ObjectUtil.isNullOrUndefined(p), false);
+            assert.strictEqual(p.mapped, false);
+            assert.strictEqual(JSON.stringify(p.rtn), JSON.stringify(pAssert));
+            assert.strictEqual(p.errors.length, 1);
+            assert.strictEqual(p.errors[0].code, "Validation");
+            assert.strictEqual(p.errors[0].name, "Custom.valx");
+            assert.strictEqual(p.errors[0].reason, `my_validate_number_about(${obj.valx})`);
+        });
+
+        it("case 3", () => {
+            let obj = {
+                co: "123456789",
+                vl: "100",
+                vlx: "123"
+            };
+
+            let opt = {
+                from: MetaMapOn.MetaName,
+                to: MetaMapOn.PropertyKey,
+            };
+            let p = new MetaMapper(opt).map(Custom, obj);
+
+            let pAssert = {
+                code: "123456789",
+                val: 100
+            };
+
+            assert.strictEqual(ObjectUtil.isNullOrUndefined(p), false);
+            assert.strictEqual(p.mapped, false);
+            assert.strictEqual(JSON.stringify(p.rtn), JSON.stringify(pAssert));
+            assert.strictEqual(p.errors.length, 1);
+            assert.strictEqual(p.errors[0].code, "Validation");
+            assert.strictEqual(p.errors[0].name, "my_c.vlx");
+            assert.strictEqual(p.errors[0].reason, `my_validate_number_about(${obj.vlx})`);
         });
     });
 });

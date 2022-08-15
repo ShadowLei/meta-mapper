@@ -19,4 +19,10 @@ export namespace NumberUtil {
 
         return true;
     }
+
+    export function asDefault(val: number, defaultVal: number): number {
+        if (ObjectUtil.isNullOrUndefined(val) || isNaN(val)) { return defaultVal; }
+        
+        return val;
+    }
 }

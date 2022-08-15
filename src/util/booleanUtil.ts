@@ -11,7 +11,8 @@ export namespace BooleanUtil {
     }
 
     export function asDefault(val: boolean, defaultVal: boolean): boolean {
-        if (val === true || val === false) { return val; }
+        if ((val === true) || (val === false)) { return val; }
+
         return defaultVal;
     }
 }

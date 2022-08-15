@@ -38,7 +38,7 @@ export namespace MetaUtil {
         if (!rtn) {
             rtn = new MetaClass();
             rtn.key = cls.name;
-            rtn.name = rtn.key;
+            rtn.name = cls.name;
             rtn.rawType = cls;
         }
 

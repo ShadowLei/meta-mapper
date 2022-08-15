@@ -66,8 +66,9 @@ export class MetaMapper {
         if (!rtn.mapped && rtn.error) {
             this.wrapper.errors.push(rtn.error);
         }
+        
         //validation
-        else if (rtn.mapped && (meta instanceof MetaProperty)) {
+        if (rtn.mapped && (meta instanceof MetaProperty)) {
             let errors = metaValidator.validate(this.wrapper, meta, rtn.rtn);
             if (errors?.length > 0) {
                 rtn.mapped = false;
