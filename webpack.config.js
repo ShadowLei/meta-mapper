@@ -1,9 +1,28 @@
 
-const nodeExternals = require('webpack-node-externals');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require("path");
-const TerserPlugin = require('terser-webpack-plugin');
 
+module.exports = {
+    mode: "production",
+    entry: path.resolve(__dirname, './src/index.ts'),
+    module: {
+        rules: [
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
+        ],
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
+    },
+    output: {
+        filename: 'meta-mapper.min.js',
+        path: path.resolve(__dirname, 'dist'),
+    },
+};
+
+  /*
 module.exports = {
     mode: "production",
     output: {
@@ -48,3 +67,4 @@ module.exports = {
         new CleanWebpackPlugin()
     ]
 };
+*/
