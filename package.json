@@ -8,6 +8,9 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
+  "files": [
+    "dist/**/*.d.ts"
+  ],
   "scripts": {
     "start": "ts-node src/app.ts",
     "start:dev": "ts-node-dev src/app.ts",
