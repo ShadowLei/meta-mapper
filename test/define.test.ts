@@ -3,7 +3,7 @@ import { assert } from "chai";
 import {
     mc, mp, mv_string, mv_number,
     Enum, Any
-} from "../src";
+} from "../src/";
 import { MetaUtil, ObjectUtil } from "../src/util";
 
 @mc("paginger")

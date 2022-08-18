@@ -19,7 +19,7 @@
   "exclude": [
     "./node_modules/*",
     "./testdata/*",
-    "./test/*",
-    "./design/*"
+    "./design/*",
+    "./test/*"
   ]
 }

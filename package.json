@@ -1,6 +1,6 @@
 {
   "name": "meta-mapper",
-  "version": "0.0.15",
+  "version": "0.1.0",
   "main": "dist/meta-mapper.min.js",
   "types": "./dist/index.d.ts",
   "typings-debug": "./src/index",
@@ -9,7 +9,7 @@
     "registry": "https://registry.npmjs.org"
   },
   "files": [
-    "dist/**/*.d.ts"
+    "dist/"
   ],
   "scripts": {
     "start": "ts-node src/app.ts",
