@@ -1,6 +1,6 @@
 {
   "name": "meta-mapper",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "main": "dist/meta-mapper.min.js",
   "types": "./dist/index.d.ts",
   "typings-debug": "./src/index",
