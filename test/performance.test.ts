@@ -68,7 +68,7 @@ describe("Performance Test", function () {
             let dEnd = new Date().getTime();
 
             let duration = (dEnd - dStart);
-            console.info(duration);
+            //console.info(duration);
 
             //@mc
             assert.strictEqual(duration <= 3000, true);
@@ -128,7 +128,7 @@ describe("Performance Test", function () {
             let dEnd = new Date().getTime();
 
             let duration = (dEnd - dStart);
-            console.info(duration);
+            //console.info(duration);
 
             //@mc
             assert.strictEqual(duration <= 3000, true);

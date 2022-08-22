@@ -386,7 +386,9 @@ describe("Array Test", function () {
                 ]
             */
             assert.strictEqual(rtn.errors[0].name, "MyData.arr3.$[0].$[1].$[1]");
+            assert.strictEqual(rtn.errors[0].code, "ObjectMapper");
             assert.strictEqual(rtn.errors[1].name, "MyData.e.$[0].$[2].$[0]");
+            assert.strictEqual(rtn.errors[1].code, "EnumMapper");
         });
     });
 });

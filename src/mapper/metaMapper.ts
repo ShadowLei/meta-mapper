@@ -1,4 +1,4 @@
-import { ClassConstructorGeneric } from "../define";
+import { ClassConstructorGeneric, GenericNameType } from "../define";
 import { MetaUtil } from "../util";
 import { MapperRtn, MetaMapperOption } from "./model";
 import { MetaDefineException } from "../exception";
@@ -25,8 +25,10 @@ export class MetaMapper {
         this.wrapper.mapper = this;
     }
 
-    map<T>(type: ClassConstructorGeneric<T>, obj: any): MapperRtn<T> {
+    map<T>(type: ClassConstructorGeneric<T>, obj: any, genericTypes?: Array<GenericNameType>): MapperRtn<T> {
         this.wrapper.clear();
+
+        this.wrapper.genericTypes = genericTypes;
 
         let meta = MetaUtil.getMCWithBaseType(type);
         if (!meta) {
@@ -48,18 +50,31 @@ export class MetaMapper {
     mapWithType<T>(type: ClassConstructorGeneric<T>, obj: any): MapperRtn<T> {
         let meta = MetaUtil.getMC(type);
         if (!meta) {
-            throw new MetaDefineException(type.toString(), `map: Can't get meta-class based on: ${type}`);
+            throw new MetaDefineException(type.toString(), `map: Can't get meta-class based on: ${type.name} | ${type}`);
         }
 
-        return this.mapWithMeta<T>(meta, obj);
+        return this.mapWithMeta<T>(meta, obj, false);
     }
 
     //don't call: internal usage
-    mapWithMeta<T>(meta: MetaBase, obj: any): MapperRtn<T> {
-        this.wrapper.mapDataStack.push({
-            meta: meta,
-            obj: obj
-        });
+    mapWithGenericType<T>(type: ClassConstructorGeneric<T>, obj: any): MapperRtn<T> {
+        let meta = MetaUtil.getMCWithBaseType(type);
+        if (!meta) {
+            throw new MetaDefineException(type.toString(), `map: Can't get meta-class based on: ${type}`);
+        }
+
+        return this.mapWithMeta<T>(meta, obj, false);
+    }
+
+    //don't call: internal usage
+    mapWithMeta<T>(meta: MetaBase, obj: any, withStack: boolean = true): MapperRtn<T> {
+
+        if (withStack) {
+            this.wrapper.mapDataStack.push({
+                meta: meta,
+                obj: obj
+            });
+        }
 
         let rtn = mapperFac.map<T>(this.wrapper, meta, obj);
 
@@ -78,7 +93,9 @@ export class MetaMapper {
             }
         }
 
-        this.wrapper.mapDataStack.pop();
+        if (withStack) {
+            this.wrapper.mapDataStack.pop();
+        }
 
         return rtn;
     }

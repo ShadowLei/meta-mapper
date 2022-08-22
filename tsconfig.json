@@ -17,6 +17,7 @@
   },
   "compileOnSave": true,
   "exclude": [
+    "./dist/*",
     "./node_modules/*",
     "./testdata/*",
     "./design/*",

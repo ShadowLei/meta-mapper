@@ -87,7 +87,6 @@ describe("Map Key2Key Test", function () {
         });
     });
 
-
     describe("Paging", function () {
         it("case 0", () => {
             let p: Paging = {
@@ -340,10 +339,30 @@ describe("Map Key2Key Test", function () {
         });
     });
 
-    describe("Complex", function () {
+    describe("Error", function () {
         it("case 0", () => {
-            let c = new MyClass();
-            assert.strictEqual(c instanceof MyClass, true);
+            let p = {
+                detail: {
+                    value: "p123"
+                }
+            };
+
+            let pAssert = {
+                detail: {
+                }
+            };
+
+            let rtn = mapper.map(MyClass, p);
+
+            assert.strictEqual(ObjectUtil.isNullOrUndefined(rtn), false);
+            assert.strictEqual(rtn.mapped, false);
+            assert.strictEqual(rtn.rtn instanceof MyClass, true);
+            assert.strictEqual(rtn.rtn.detail instanceof MyClassDetail, true);
+            assert.strictEqual(JSON.stringify(rtn.rtn), JSON.stringify(pAssert));
+
+            assert.strictEqual(rtn.errors.length, 1);
+            assert.strictEqual(rtn.errors[0].code, "NumberMapper");
+            assert.strictEqual(rtn.errors[0].name, "MyClass.detail.value");
         });
     });
 });

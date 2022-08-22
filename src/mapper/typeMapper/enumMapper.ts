@@ -11,6 +11,13 @@ export class EnumMapper implements IMetaTypeMapper {
     }
 
     map(wrapper: MetaMapperWrapper, meta: MetaBase, obj: any): MapperRtn<any> {
+        if (ObjectUtil.isNullOrUndefined(obj)) {
+            return {
+                mapped: true,
+                rtn: obj
+            };
+        }
+
         let enumType = meta.metaTypes[1];
         if (!enumType) {
             throw new MetaDefineException("EnumMapper", `Enum type not defined: ${meta.key}`);

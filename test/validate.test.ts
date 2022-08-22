@@ -151,18 +151,17 @@ describe("Validation - Test", function () {
             assert.strictEqual(p.errors[1].reason, "isNotNullOrUndefined()");
 
             assert.strictEqual(p.errors[2].code, "Validation");
-            assert.strictEqual(p.errors[2].name, "Paging.data.$[1].PagingData.code");
+            assert.strictEqual(p.errors[2].name, "Paging.data.$[1].code");
             assert.strictEqual(p.errors[2].reason, "isNotNullOrUndefined()");
             
             assert.strictEqual(p.errors[3].code, "Validation");
-            assert.strictEqual(p.errors[3].name, "Paging.data.$[1].PagingData.val");
+            assert.strictEqual(p.errors[3].name, "Paging.data.$[1].val");
             assert.strictEqual(p.errors[3].reason, "isNotNullOrUndefined()");
 
             assert.strictEqual(p.errors[4].code, "value - vcode");
-            assert.strictEqual(p.errors[4].name, "Paging.data.$[2].PagingData.val");
+            assert.strictEqual(p.errors[4].name, "Paging.data.$[2].val");
             assert.strictEqual(p.errors[4].reason, "validate(333, 1, 100, true)");
         });
-
 
         it("case 2", () => {
             let obj = {
@@ -202,11 +201,11 @@ describe("Validation - Test", function () {
             assert.strictEqual(p.errors[1].reason, "isNotNullOrUndefined()");
 
             assert.strictEqual(p.errors[2].code, "coder");
-            assert.strictEqual(p.errors[2].name, "Paging.data.$[1].PagingData.code");
+            assert.strictEqual(p.errors[2].name, "Paging.data.$[1].code");
             assert.strictEqual(p.errors[2].reason, "must be [1-10]");
             
             assert.strictEqual(p.errors[3].code, "Validation");
-            assert.strictEqual(p.errors[3].name, "Paging.data.$[2].PagingData.code");
+            assert.strictEqual(p.errors[3].name, "Paging.data.$[2].code");
             assert.strictEqual(p.errors[3].reason, "isNotNullOrUndefined()");
         });
     });

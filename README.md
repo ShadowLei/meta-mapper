@@ -18,9 +18,9 @@ npm install --save meta-mapper
 * Support super class.
 * Support validation function on property.
 * Try map as much as possible, the `errors` indicates mapping issues.
+* Support generic type w/ `Generic` class/keyword since v0.2.0
 
 ## Limitation
-* Generic type not support yet.
 * Support class definition instead of object type constraint definition.
 * Support enum { ... } instead of declare type = ... | ...
 * Do not support cycle structure.

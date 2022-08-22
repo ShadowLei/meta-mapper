@@ -1,5 +1,5 @@
 import { ClassConstructor } from "../../define";
-import { MetaMapException } from "../../exception/metaMapException";
+import { MetaMapException } from "../../exception";
 import { MetaArray, MetaBase, MetaClass, MetaProperty } from "../../meta/_model";
 import { MetaUtil, ObjectUtil } from "../../util";
 import { MetaMapperWrapper } from "../metaMapperWrapper";
