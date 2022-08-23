@@ -143,23 +143,23 @@ describe("Validation - Test", function () {
             assert.strictEqual(p.errors.length, 5);
 
             assert.strictEqual(p.errors[0].code, "test.paging.limit");
-            assert.strictEqual(p.errors[0].name, "Paging.limit");
+            assert.strictEqual(p.errors[0].name, "paging.limit");
             assert.strictEqual(p.errors[0].reason, "Must between [0 ~ 20]");
 
             assert.strictEqual(p.errors[1].code, "Validation");
-            assert.strictEqual(p.errors[1].name, "Paging.date");
+            assert.strictEqual(p.errors[1].name, "paging.date");
             assert.strictEqual(p.errors[1].reason, "isNotNullOrUndefined()");
 
             assert.strictEqual(p.errors[2].code, "Validation");
-            assert.strictEqual(p.errors[2].name, "Paging.data.$[1].code");
+            assert.strictEqual(p.errors[2].name, "paging.data.$[1].code");
             assert.strictEqual(p.errors[2].reason, "isNotNullOrUndefined()");
             
             assert.strictEqual(p.errors[3].code, "Validation");
-            assert.strictEqual(p.errors[3].name, "Paging.data.$[1].val");
+            assert.strictEqual(p.errors[3].name, "paging.data.$[1].value");
             assert.strictEqual(p.errors[3].reason, "isNotNullOrUndefined()");
 
             assert.strictEqual(p.errors[4].code, "value - vcode");
-            assert.strictEqual(p.errors[4].name, "Paging.data.$[2].val");
+            assert.strictEqual(p.errors[4].name, "paging.data.$[2].value");
             assert.strictEqual(p.errors[4].reason, "validate(333, 1, 100, true)");
         });
 
@@ -193,19 +193,19 @@ describe("Validation - Test", function () {
             assert.strictEqual(p.errors.length, 4);
 
             assert.strictEqual(p.errors[0].code, "test.paging.limit");
-            assert.strictEqual(p.errors[0].name, "Paging.limit");
+            assert.strictEqual(p.errors[0].name, "paging.limit");
             assert.strictEqual(p.errors[0].reason, "Must between [0 ~ 20]");
 
             assert.strictEqual(p.errors[1].code, "Validation");
-            assert.strictEqual(p.errors[1].name, "Paging.date");
+            assert.strictEqual(p.errors[1].name, "paging.date");
             assert.strictEqual(p.errors[1].reason, "isNotNullOrUndefined()");
 
             assert.strictEqual(p.errors[2].code, "coder");
-            assert.strictEqual(p.errors[2].name, "Paging.data.$[1].code");
+            assert.strictEqual(p.errors[2].name, "paging.data.$[1].code");
             assert.strictEqual(p.errors[2].reason, "must be [1-10]");
             
             assert.strictEqual(p.errors[3].code, "Validation");
-            assert.strictEqual(p.errors[3].name, "Paging.data.$[2].code");
+            assert.strictEqual(p.errors[3].name, "paging.data.$[2].code");
             assert.strictEqual(p.errors[3].reason, "isNotNullOrUndefined()");
         });
     });
@@ -229,15 +229,15 @@ describe("Validation - Test", function () {
             assert.strictEqual(JSON.stringify(p.rtn), JSON.stringify(pAssert));
             assert.strictEqual(p.errors.length, 3);
             assert.strictEqual(p.errors[0].code, "the-code");
-            assert.strictEqual(p.errors[0].name, "Custom.code");
+            assert.strictEqual(p.errors[0].name, "my_c.co");
             assert.strictEqual(p.errors[0].reason, "the-code must be about 100");
 
             assert.strictEqual(p.errors[1].code, "NumberMapper");
-            assert.strictEqual(p.errors[1].name, "Custom.val");
+            assert.strictEqual(p.errors[1].name, "my_c.vl");
             assert.strictEqual(p.errors[1].reason, `Not a validate number: ${obj.val}`);
 
             assert.strictEqual(p.errors[2].code, "Validation");
-            assert.strictEqual(p.errors[2].name, "Custom.valx");
+            assert.strictEqual(p.errors[2].name, "my_c.vlx");
             assert.strictEqual(p.errors[2].reason, `my_validate_number_about(${obj.valx})`);
         });
 
@@ -293,7 +293,7 @@ describe("Validation - Test", function () {
             assert.strictEqual(JSON.stringify(p.rtn), JSON.stringify(pAssert));
             assert.strictEqual(p.errors.length, 1);
             assert.strictEqual(p.errors[0].code, "Validation");
-            assert.strictEqual(p.errors[0].name, "Custom.valx");
+            assert.strictEqual(p.errors[0].name, "my_c.vlx");
             assert.strictEqual(p.errors[0].reason, `my_validate_number_about(${obj.valx})`);
         });
 

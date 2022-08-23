@@ -33,7 +33,7 @@ export class MetaValidator {
             );
 
             if (!validateRtn.mapped) {
-                validateRtn.error.name = wrapper.getStackName();
+                validateRtn.error.name = wrapper.getMetaName();
                 rtn.push(validateRtn.error);
             }
         });

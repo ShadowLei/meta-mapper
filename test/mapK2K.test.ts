@@ -362,7 +362,7 @@ describe("Map Key2Key Test", function () {
 
             assert.strictEqual(rtn.errors.length, 1);
             assert.strictEqual(rtn.errors[0].code, "NumberMapper");
-            assert.strictEqual(rtn.errors[0].name, "MyClass.detail.value");
+            assert.strictEqual(rtn.errors[0].name, "my-class.detail.value");
         });
     });
 });

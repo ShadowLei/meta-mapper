@@ -41,7 +41,7 @@ export class MapperFactory {
             rtn = m.map<T>(wrapper, meta, obj);
 
             if (!rtn.mapped && rtn.error) {
-                rtn.error.name = wrapper.getStackName();
+                rtn.error.name = wrapper.getMetaName();
             }
 
             return rtn;
@@ -51,7 +51,7 @@ export class MapperFactory {
         rtn = {
             mapped: false,
             error: {
-                name: wrapper.getStackName(),
+                name: wrapper.getMetaName(),
                 code: "Mismatch",
                 reason: `Can't find a proper mapper from factory: ${meta.inspectType?.name}`
             }

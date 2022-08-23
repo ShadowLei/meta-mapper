@@ -29,11 +29,29 @@ class MyData {
     val: number;
 }
 
+@mc("extend-data", MyData)
+class MyExtendData extends MyData {
+    @mp
+    date: Date;
+}
+
+@mc("paging")
+class Paging<T> {
+    @mp
+    limit: number;
+
+    @mp
+    offset: number;
+
+    @mp("", Array, Generic)
+    data: T[];
+}
+
 const mapper = new MetaMapper();
 
 describe("Generic Test", function () {
 
-    describe("Meta Mapper", function () {
+    describe("Object Test", function () {
         it("case 0", () => {
             let p = new MyGeneric<MyData>();
             assert.strictEqual(p instanceof MyGeneric, true);
@@ -77,11 +95,13 @@ describe("Generic Test", function () {
         });
 
         it("case 1", () => {
+            let now = new Date();
             let p = {
                 key: 123,
                 val: {
                     name: "shadow",
-                    val: "123"
+                    val: "123",
+                    date: now
                 }
             };
 
@@ -134,9 +154,9 @@ describe("Generic Test", function () {
             assert.strictEqual(rtn.rtn instanceof MyGeneric, true);
             assert.strictEqual(rtn.rtn.val instanceof MyData, true);
             assert.strictEqual(rtn.errors.length, 2);
-            assert.strictEqual(rtn.errors[0].name, "MyGeneric.val.name");
+            assert.strictEqual(rtn.errors[0].name, "my-generic.star.name");
             assert.strictEqual(rtn.errors[0].code, "StringMapper");
-            assert.strictEqual(rtn.errors[1].name, "MyGeneric.val.val");
+            assert.strictEqual(rtn.errors[1].name, "my-generic.star.val");
             assert.strictEqual(rtn.errors[1].code, "NumberMapper");
             
             assert.strictEqual(JSON.stringify(rtn.rtn), JSON.stringify(pAssert));
@@ -188,6 +208,73 @@ describe("Generic Test", function () {
             assert.strictEqual(rtn.rtn instanceof MyGeneric, true);
             assert.strictEqual(typeof rtn.rtn.val, "boolean");
             assert.strictEqual(JSON.stringify(rtn.rtn), JSON.stringify(pAssert));
+        });
+    });
+
+    describe("Array Test", function () {
+        it("case 0", () => {
+
+            let now = new Date();
+
+            let p = {
+                limit: 10,
+                offset: 0,
+                data: [
+                    {
+                        name: "shadow",
+                        val: 123,
+                        date: now.getTime()
+                    },
+                    {
+                        name: 123,
+                        val: "p123",
+                        date: now.getTime()
+                    }
+                ]
+            };
+
+            let pAssert = {
+                limit: 10,
+                offset: 0,
+                data: [
+                    {
+                        name: "shadow",
+                        val: 123
+                    },
+                    {
+                        name: "123",
+                        date: now
+                    }
+                ]
+            };
+
+            let rtn = mapper.map<Paging<MyData>>(Paging, p, [
+                {
+                    name: "paging.data.$[1]",
+                    type: MyExtendData
+                },
+                {
+                    name: "paging.data.$",
+                    type: MyData
+                }
+            ]);
+
+            //console.log(rtn.rtn);
+
+            assert.strictEqual(rtn.mapped, false);
+            assert.strictEqual(rtn.rtn instanceof Paging, true);
+            assert.strictEqual(rtn.rtn.data instanceof Array, true);
+            assert.strictEqual(rtn.rtn.data[0] instanceof MyData, true);
+            assert.strictEqual(rtn.rtn.data[0] instanceof MyExtendData, false);
+            assert.strictEqual(rtn.rtn.data[1] instanceof MyData, true);
+            assert.strictEqual(rtn.rtn.data[1] instanceof MyExtendData, true);
+            assert.strictEqual((rtn.rtn.data[1] as MyExtendData).date instanceof Date, true);
+            assert.strictEqual(rtn.errors.length, 1);
+            assert.strictEqual(rtn.errors[0].name, "paging.data.$[1].val");
+            assert.strictEqual(rtn.errors[0].code, "NumberMapper");
+            
+            assert.strictEqual(JSON.stringify(rtn.rtn), JSON.stringify(pAssert));
+            
         });
     });
 });

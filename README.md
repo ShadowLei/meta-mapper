@@ -17,8 +17,10 @@ npm install --save meta-mapper
 * Support nest structure.
 * Support super class.
 * Support validation function on property.
-* Try map as much as possible, the `errors` indicates mapping issues.
+* Use stragety `try map as much as possible`, the `errors` indicates the runtime mapping issues.
 * Support generic type w/ `Generic` class/keyword since v0.2.0
+    > Use a `name` (the meta-name) to represent the type wannt, example `paging.offset.date`, for array structure try to use example `paging.data.$` please.  
+    > Check more details in test case in `generic.test.ts` please.
 
 ## Limitation
 * Support class definition instead of object type constraint definition.
@@ -26,6 +28,11 @@ npm install --save meta-mapper
 * Do not support cycle structure.
     > If the structure can't use JSON.stringify, then don't use meta-mapper please.
 * Do not support custom map function yet.
+
+## Exception & Error
+* Most of the `Exception` was thrown for the definiation error, which means you might correct it on the program phase instead of runtime phase.
+* `Error` returned from `$rtn.errors` which represent the map runtime error. It's an array structure since we use `try map as much as possible` stragety.
+    > `$rtn.errors[$idx].name` is the meta name by default, example `paging.offset`. When there's array structure it could be like `paging.detail.data[2].value` etc.
 
 ## Performance
 Below performance test based on: 2.4 GHz 8-Core Intel Core i9 + 64G Memory.
@@ -38,11 +45,12 @@ Below performance test based on: 2.4 GHz 8-Core Intel Core i9 + 64G Memory.
 * Less dependency, only depends on "reflect-metadata"
 
 ## API
-* `@mc(name: string, types: ClassConstructor[])`
+* `@mc(name: string, types: ClassConstructor[], genericTypes?: Array<GenericNameType>)`
     > when define a class, attach `@mc` on the class as a meta class data.  
     > Example: `@mc("my_class", ClassBase)` for class `class MyClass extends ClassBase`.
     - name: meta-name (alias) of your class. By default `null` | `""` indicates the same as the class-name. 
     - type: super types of the class.
+    - genericTypes: If any generic type, indicate it here please. for `Array<T>` indicate the name as `$` (i.e. `xx.$.xxx`) please.
 * `@mp(name: string, types: ClassConstructor[] | Function[])`
     > when define a property, attach `@mp` on the property as a meta property data.
     - name: meta-name (alias) of your property. By default `null` | `""` indicates the same as thhe property-name.
@@ -157,7 +165,7 @@ assert.strictEqual(p.rtn.date instanceof Date, true);
 ## Design
 
 * MetaMapper-Flow:
-![MetaMapper-Flow](/design/MetaMapper%402x.png)
+![MetaMapper-Flow](/design/MetaMapper.png)
 
 * MetaMapper-DataType:
-![MetaMapper-DataType](/design/MetaMapper-DataType%402x.png)
+![MetaMapper-DataType](/design/MetaMapper-DataType.png)

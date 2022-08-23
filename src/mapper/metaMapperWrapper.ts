@@ -23,15 +23,6 @@ export class MetaMapperWrapper {
         this.errors = [];
         this.genericTypes = null;
     }
-    
-    getStackName(): string {
-        let name = [];
-        this.mapDataStack.foreach((ele, idx) => {
-            name.push(ele.meta.getMapKey(this.opt.from));
-        });
-
-        return name.join(".");
-    }
 
     getMetaName(): string {
         let name = [];

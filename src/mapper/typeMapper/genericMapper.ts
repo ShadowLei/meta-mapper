@@ -1,3 +1,4 @@
+import { GenericNameType } from "../../define";
 import { MetaDefineException, MetaMapException } from "../../exception";
 import { MetaBase } from "../../meta/_model";
 import { MetaMapperWrapper } from "../metaMapperWrapper";
@@ -11,6 +12,17 @@ export class GenericMapper implements IMetaTypeMapper {
         return meta.inspectType === Generic;
     }
 
+    private findMatchedGenericType(genericMetaName: string, genericTypes: GenericNameType[]): GenericNameType {
+
+        let shortenName = null;
+        if (genericMetaName.indexOf("$") > 0) {
+            shortenName = genericMetaName.replace(/\$\[\d+\]/g, "$");
+        }
+
+        let rtn = genericTypes.find(m => (m.name === genericMetaName || m.name === shortenName));
+        return rtn;
+    }
+
     map(wrapper: MetaMapperWrapper, meta: MetaBase, obj: any): MapperRtn<any> {
 
         if (!wrapper.genericTypes) {
@@ -18,15 +30,10 @@ export class GenericMapper implements IMetaTypeMapper {
         }
 
         let genericMetaName = wrapper.getMetaName();
-        let genericType = wrapper.genericTypes.find(m => {
-            if (m.name === genericMetaName) {
-                return true;
-            }
-            return false;
-        });
+        let genericType = this.findMatchedGenericType(genericMetaName, wrapper.genericTypes);
 
         if (!genericType) {
-            throw new MetaMapException("GenericMapper", `Can't find generic type for: ${genericMetaName}`);
+            throw new MetaDefineException("GenericMapper", `Can't find generic type for: ${genericMetaName}`);
         }
 
         return wrapper.mapper.mapWithGenericType(genericType.type, obj);
