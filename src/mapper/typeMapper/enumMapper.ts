@@ -3,21 +3,16 @@ import { MetaBase } from "../../meta/_model";
 import { EnumUtil, NumberUtil, ObjectUtil } from "../../util";
 import { MetaMapperWrapper } from "../metaMapperWrapper";
 import { Enum, MapperRtn } from "../model";
-import { IMetaTypeMapper } from "./iTypeMapper";
+import { IMetaTypeMapper, ITypeMapper, TypeString } from "./iTypeMapper";
+import { MapperBase } from "./mapperBase";
 
 export class EnumMapper implements IMetaTypeMapper {
+
     match(meta: MetaBase): boolean {
         return (meta.inspectType === Enum);
     }
 
-    map(wrapper: MetaMapperWrapper, meta: MetaBase, obj: any): MapperRtn<any> {
-        if (ObjectUtil.isNullOrUndefined(obj)) {
-            return {
-                mapped: true,
-                rtn: obj
-            };
-        }
-
+    private getEnumObject(meta: MetaBase): any {
         let enumType = meta.metaTypes[1];
         if (!enumType) {
             throw new MetaDefineException("EnumMapper", `Enum type not defined: ${meta.key}`);
@@ -25,12 +20,35 @@ export class EnumMapper implements IMetaTypeMapper {
         if (typeof enumType !== "function") {
             throw new MetaDefineException("EnumMapper", `Enum internal type mut be a function: ${meta.key}`);
         }
-
+    
         let enumObj = enumType();
         if (!enumObj) {
             throw new MetaDefineException("EnumMapper", `Enum internal type returns null`);
         }
+    
+        return enumObj;
+    }
 
+    private mapAsEnumArray(enumArr: Array<any>, obj: any): MapperRtn<any> {
+        let found = enumArr.find(m => m === obj);
+        if (found) {
+            return {
+                mapped: true,
+                rtn: found
+            };
+        }
+        
+        return {
+            mapped: false,
+            error: {
+                name: null,
+                code: "EnumMapper",
+                reason: `Value not a valid typed array: ${obj}`
+            }
+        };
+    }
+
+    private mapAsEnumObject(enumObj: any, obj: any): MapperRtn<any> {
         let typeStr = ObjectUtil.getTypeString(obj);
         if (typeStr !== "string" && typeStr !== "number") {
             return {
@@ -38,7 +56,7 @@ export class EnumMapper implements IMetaTypeMapper {
                 error: {
                     name: null,
                     code: "EnumMapper",
-                    reason: `Value must be string | number: ${typeof obj} | ${JSON.stringify(obj)}`
+                    reason: `Value must be string | number: ${obj}`
                 }
             };
         }
@@ -62,6 +80,36 @@ export class EnumMapper implements IMetaTypeMapper {
             };
         }
         
+        return {
+            mapped: false,
+            error: {
+                name: null,
+                code: "EnumMapper",
+                reason: `Value not a valid enum: ${obj}`
+            }
+        };
+    }
+
+    map(wrapper: MetaMapperWrapper, meta: MetaBase, obj: any): MapperRtn<any> {
+        if (ObjectUtil.isNullOrUndefined(obj)) {
+            return {
+                mapped: true,
+                rtn: obj
+            };
+        }
+
+        let enumObj = this.getEnumObject(meta);
+        let enumTypeStr = ObjectUtil.getTypeString(enumObj);
+
+        switch (enumTypeStr) {
+            case "array":
+                return this.mapAsEnumArray(enumObj, obj);
+            case "object":
+                return this.mapAsEnumObject(enumObj, obj);
+            default:
+                break;
+        }
+
         return {
             mapped: false,
             error: {

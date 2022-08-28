@@ -24,7 +24,9 @@ npm install --save meta-mapper
 
 ## Limitation
 * Support class definition instead of object type constraint definition.
-* Support enum { ... } instead of declare type = ... | ...
+* Now support enum int 2 ways, define an `enum` or via `array` type.
+    > A. `enum XXX` w/ `@mp("", Enum, () => XXX)`  
+    > B. array w/ `@mp("", Enum, () => [......])`
 * Do not support cycle structure.
     > If the structure can't use JSON.stringify, then don't use meta-mapper please.
 * Do not support custom map function yet.
