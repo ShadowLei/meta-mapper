@@ -47,12 +47,11 @@ Below performance test based on: 2.4 GHz 8-Core Intel Core i9 + 64G Memory.
 * Less dependency, only depends on "reflect-metadata"
 
 ## API
-* `@mc(name: string, types: ClassConstructor[], genericTypes?: Array<GenericNameType>)`
+* `@mc(name: string, types: ClassConstructor[])`
     > when define a class, attach `@mc` on the class as a meta class data.  
     > Example: `@mc("my_class", ClassBase)` for class `class MyClass extends ClassBase`.
     - name: meta-name (alias) of your class. By default `null` | `""` indicates the same as the class-name. 
     - type: super types of the class.
-    - genericTypes: If any generic type, indicate it here please. for `Array<T>` indicate the name as `$` (i.e. `xx.$.xxx`) please.
 * `@mp(name: string, types: ClassConstructor[] | Function[])`
     > when define a property, attach `@mp` on the property as a meta property data.
     - name: meta-name (alias) of your property. By default `null` | `""` indicates the same as thhe property-name.
@@ -67,11 +66,12 @@ Below performance test based on: 2.4 GHz 8-Core Intel Core i9 + 64G Memory.
 * `new(opt: MetaMapperOption)`
     > Define your mapper w/ custom mapper options.
     - opt: check the option below please.
-* `map(type: ClassConstructorGeneric<T>, obj: any): MapperRtn<T>`
+* `map(type: ClassConstructorGeneric<T>, obj: any, genericTypes?: Array<GenericNameType>): MapperRtn<T>`
     > map from any object input to defined class data type.  
     > Example: `@mp("my_enum", Enum, () => MyEnum)` for property `my_enum: MyEnum`.
     - type: the class type you wanna to map to.
     - obj: the object you wanna to map from.
+    - genericTypes: If any generic type, indicate it here please. for `Array<T>` indicate the name as `$` (i.e. `xx.$.xxx`) please.
 
 ## Mapper Option
 Option | Default Value | Description
