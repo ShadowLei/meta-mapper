@@ -1,6 +1,6 @@
 {
   "name": "meta-mapper",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "main": "dist/meta-mapper.min.js",
   "types": "./dist/index.d.ts",
   "repository": "git@github.com:ShadowLei/meta-mapper.git",
@@ -15,12 +15,9 @@
   ],
   "scripts": {
     "clean": "rm -rf dist",
-    "start": "ts-node src/app.ts",
-    "start:dev": "ts-node-dev src/app.ts",
     "test": "mocha --timeout 30000 --require ts-node/register --watch-extensions ts \"test/**/*.test.ts\" --exit",
     "test:generic": "mocha --timeout 30000 --require ts-node/register --watch-extensions ts \"test/**/generic.test.ts\" --exit",
-    "build": "webpack",
-    "lint": "tslint -p tsconfig.json -c tslint.json"
+    "build": "webpack"
   },
   "keywords": [
     "class", "meta", "mapper", "shaper", "reflect"
@@ -41,7 +38,6 @@
     "ts-mocha": "^6.0.0",
     "ts-node": "^8.9.0",
     "ts-node-dev": "^1.1.8",
-    "tslint": "^6.1.1",
     "typescript": "^3.8.3",
     "webpack": "^5.64.1",
     "webpack-cli": "^4.9.1",
