@@ -1,6 +1,6 @@
 {
   "name": "meta-mapper",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "main": "dist/meta-mapper.min.js",
   "types": "./dist/index.d.ts",
   "repository": "git@github.com:ShadowLei/meta-mapper.git",

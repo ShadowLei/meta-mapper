@@ -44,7 +44,8 @@ export class ObjectMapper implements IMetaTypeMapper {
 
         let prop = wrapper.mapper.mapWithMeta(propMeta, propKeyVal.val);
 
-        if (!ObjectUtil.isNullOrUndefined(prop.rtn)) {
+        if (!ObjectUtil.isNullOrUndefined(prop.rtn) || 
+            (prop.rtn === null && wrapper.opt.keepNull)) {
             this.setProp(mapObj, prop.rtn, propMeta, wrapper.opt.to);
         }
 

@@ -82,7 +82,7 @@ Option | Default Value | Description
 **validateUndefined** | `false` | global swith: when validate, should we **validate** undefined value or not.
 **validateNull** | `true` | global swith: when validate, should we validate null value or not.
 **keepArrayLengthMatch** | `true` | when map failed on an array item, should we still set as "undefined" to keep the array length or not.
-
+**keepNull | `false` | if the value is `null` then keep the key or property conversion.
 
 ## Code Example
 > ref: $/test/readme.test.ts as well pleae.
