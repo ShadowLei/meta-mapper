@@ -9,7 +9,8 @@ export class MetaMapperOption {
     validateUndefined: boolean;
     validateNull: boolean;
 
-    keepNull: boolean;
+    keepNullVal: boolean;
+    keepOriginVal: boolean;
     keepArrayLengthMatch: boolean;
 
     static asDefault(raw?: Partial<MetaMapperOption>): MetaMapperOption {
@@ -21,7 +22,8 @@ export class MetaMapperOption {
         rtn.validate = BooleanUtil.asDefault(rtn.validate, true);
         rtn.validateUndefined = BooleanUtil.asDefault(rtn.validateUndefined, false);
         rtn.validateNull = BooleanUtil.asDefault(rtn.validateNull, true);
-        rtn.keepNull = BooleanUtil.asDefault(rtn.keepNull, false);
+        rtn.keepNullVal = BooleanUtil.asDefault(rtn.keepNullVal, false);
+        rtn.keepOriginVal = BooleanUtil.asDefault(rtn.keepOriginVal, false);
 
         rtn.keepArrayLengthMatch = BooleanUtil.asDefault(rtn.keepArrayLengthMatch, true);
         
