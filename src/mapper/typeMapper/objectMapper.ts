@@ -15,16 +15,19 @@ export class ObjectMapper implements IMetaTypeMapper {
     private getProp(obj: any, prop: MetaProperty, on: MetaMapOn): {
         key: string;
         val: any;
+        exist: boolean;
     } {
         if (on === MetaMapOn.PropertyKey) {
             return {
                 key: prop.key,
-                val: obj[prop.key]
+                val: obj[prop.key],
+                exist: obj.hasOwnProperty(prop.key)
             };
         } else {
             return {
                 key: prop.name,
-                val: obj[prop.name]
+                val: obj[prop.name],
+                exist: obj.hasOwnProperty(prop.name)
             };
         }
     }
@@ -42,14 +45,14 @@ export class ObjectMapper implements IMetaTypeMapper {
         //get from origin
         let propKeyVal = this.getProp(origin, propMeta, wrapper.opt.from);
 
-        if (propKeyVal.val === undefined) {
-            return true;
-        }
+        if (!propKeyVal.exist) { return true; }
 
         if (wrapper.opt.keepOriginVal) {
             this.setProp(mapObj, propKeyVal.val, propMeta, wrapper.opt.to);
             return true;
         }
+
+        if (propKeyVal.val === undefined) { return true; }
 
         let prop = wrapper.mapper.mapWithMeta(propMeta, propKeyVal.val);
 

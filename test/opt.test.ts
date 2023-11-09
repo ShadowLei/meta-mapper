@@ -689,7 +689,7 @@ describe("Option - KeepOrigin", function () {
             assert.strictEqual(ObjectUtil.isNullOrUndefined(rtn), false);
             assert.strictEqual(rtn.mapped, true);
             assert.strictEqual(rtn.rtn instanceof MyClass, true);
-            assert.strictEqual(Object.keys(rtn.rtn).length, 1);
+            assert.strictEqual(Object.keys(rtn.rtn).length, 2);
             assert.strictEqual(JSON.stringify(rtn.rtn), JSON.stringify(pAssert));
             assert.strictEqual(rtn.errors.length, 0);
         });
