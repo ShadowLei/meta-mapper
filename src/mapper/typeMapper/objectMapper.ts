@@ -73,6 +73,10 @@ export class ObjectMapper implements IMetaTypeMapper {
             };
         }
 
+        if (!meta) {
+            throw new MetaMapException("ObjectMapper", `Unexpected empty meta during the process.`);
+        }
+
         let typeStr = ObjectUtil.getTypeString(obj);
         if (typeStr !== "object") {
             return {
@@ -122,6 +126,6 @@ export class ObjectMapper implements IMetaTypeMapper {
             return mapRtn;
         }
 
-        throw new MetaMapException("ObjectMapper", "Unexpected map flow here.");
+        throw new MetaMapException("ObjectMapper", `Unexpected map flow here: ${meta.key} | ${meta.name} | ${meta.rawType?.name}`);
     }
 }
